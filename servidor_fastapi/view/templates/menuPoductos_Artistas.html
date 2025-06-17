@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Contenido</title>
+    <link rel="stylesheet" href="/css/menuProductos_Artistas.css">
+</head>
+<body>
+    <div id="header"></div>
+    {% include 'header1_Artista.html' %}
+    <main>
+        <h1>Tu contenido</h1>
+        <p>Consulta, sube y actualiza tus productos</p>
+       
+        <div class="buttons">
+            <button type="button" onclick="redirectProdMusicales()">PRODUCTOS MUSICALES</button>
+            <button type="button" onclick="redirectMerchandising()">MERCHANDISING</button>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    {% include 'footer.html' %}
+    
+    <script>
+        function redirectProdMusicales() {
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                alert("Usuario no logueado.");
+                return;
+            }
+            window.location.href = `/getProdMusicalesArtista/${userId}`;
+        }
+        
+        function redirectMerchandising() {
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                alert("Usuario no logueado.");
+                return;
+            }
+            window.location.href = `/getMerchandisingArtista/${userId}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+{
+  "discos": [
+    {
+      "coverUrl": "disco.jpeg",
+      "name": "Disco Fever",
+      "genre": "Disco",
+      "producer": "DJ Energy",
+      "date": "2021-07-15"
+    },
+    {
+      "coverUrl": "disco.jpeg",
+      "name": "Funky Beats",
+      "genre": "Funk",
+      "producer": "Funky Producer",
+      "date": "2022-03-20"
+    },
+    {
+      "coverUrl": "disco.jpeg",
+      "name": "Retro Vibes",
+      "genre": "Rock",
+      "producer": "RetroMaster",
+      "date": "2020-11-10"
+    }
+  ],
+  "digitales": [
+    {
+      "coverUrl": "digital.jpeg",
+      "name": "Digital Revolution",
+      "color": "Blue",
+      "stock": 50,
+      "date": "2022-08-30"
+    },
+    {
+      "coverUrl": "digital.jpeg",
+      "name": "Tech Tunes",
+      "color": "Green",
+      "stock": 30,
+      "date": "2023-01-15"
+    },
+    {
+      "coverUrl": "digital.jpeg",
+      "name": "Virtual Sound",
+      "color": "Red",
+      "stock": 20,
+      "date": "2021-05-05"
+    }
+  ],
+  "cassettes": [
+    {
+      "coverUrl": "cassette.jpeg",
+      "name": "Retro Cassette",
+      "color": "Red",
+      "sizes": "N/A",
+      "date": "1985-06-15"
+    },
+    {
+      "coverUrl": "cassette.jpeg",
+      "name": "Vintage Tapes",
+      "color": "Black",
+      "sizes": "N/A",
+      "date": "1987-09-20"
+    },
+    {
+      "coverUrl": "cassette.jpeg",
+      "name": "Classic Mix",
+      "color": "Blue",
+      "sizes": "N/A",
+      "date": "1983-12-01"
+    }
+  ],
+  "vinilos": [
+    {
+      "coverUrl": "vinilo.jpeg",
+      "name": "Vinyl Classics",
+      "color": "Black",
+      "stock": 15,
+      "date": "2019-04-10"
+    },
+    {
+      "coverUrl": "vinilo.jpeg",
+      "name": "Modern Vinyl",
+      "color": "White",
+      "stock": 25,
+      "date": "2020-07-22"
+    },
+    {
+      "coverUrl": "vinilo.jpeg",
+      "name": "Retro Vinyl",
+      "color": "Brown",
+      "stock": 10,
+      "date": "2018-02-18"
+    }
+  ]
+}

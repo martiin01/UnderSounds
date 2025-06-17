@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subir Producto</title>
+  <link rel="stylesheet" href="/css/subir_prodMusicales.css">
+</head>
+<body>
+  <div id="header"></div>
+  {% include 'header1_Artista.html' %}
+  <div class="container">
+    <main>
+      <h1>Subir Producto</h1>
+      <form id="uploadForm">
+        <!-- Nombre del producto -->
+        <label for="product-name">Nombre</label>
+        <input type="text" id="product-name" placeholder="Nombre" required>
+        
+        <!-- Tipo de Producto (sin merchandising) -->
+        <label for="product-type">Tipo de Producto</label>
+        <select id="product-type" name="product-type" required>
+          <option value="cds">Disco Compacto</option>
+          <option value="cassettes">Cassette</option>
+          <option value="digital">Formato Digital</option>
+          <option value="vinilos">Vinilo</option>
+        </select>
+        
+        <!-- Nuevo select para Género (se usará para asignar el atributo "estilo") -->
+        <label for="genre-type">Género</label>
+        <select id="genre-type" name="genre-type" required>
+          <option value="Jazz">JAZZ</option>
+          <option value="Country">COUNTRY</option>
+          <option value="Rock">ROCK</option>
+          <option value="Pop">POP</option>
+          <option value="Reggaeton">REGGAETON</option>
+          <option value="Punk">PUNK</option>
+          <option value="Cassettes">CASETTES</option>
+          <option value="Vinilos">VINILOS</option>
+          <option value="D.Compactos">D.COMPACTOS</option>
+          <option value="Camisetas">CAMISETAS</option>
+        </select>
+        
+        <!-- Precio -->
+        <label for="price">Precio (€)</label>
+        <input type="number" id="price" name="price" placeholder="Precio del producto" step="0.01" min="0" required>
+        
+        <!-- Imagen de portada -->
+        <label for="cover-image">Imagen Portada</label>
+        <input type="file" id="cover-image" accept="image/*" required>
+        
+        <!-- Botón de submit -->
+        <button type="submit">Subir Producto</button>
+      </form>
+    </main>
+  </div>
+  <div id="footer-placeholder"></div>
+  {% include 'footer.html' %}
+  
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      
+      // Obtener el userId desde localStorage
+      const userId = localStorage.getItem('userId');
+      
+      // Recoger los valores del formulario
+      const nombre = document.getElementById('product-name').value;
+      const productType = document.getElementById('product-type').value;
+      const genre = document.getElementById('genre-type').value; // Se asignará como 'estilo'
+      const precio = document.getElementById('price').value;
+      
+      // Para la imagen, se obtiene el nombre del archivo (o se podría desarrollar una lógica de subida)
+      const coverImageInput = document.getElementById('cover-image');
+      let imagen = "";
+      if (coverImageInput.files && coverImageInput.files[0]) {
+        imagen = coverImageInput.files[0].name;
+      }
+      
+      // En este ejemplo, usamos el valor del género para el campo 'estilo'
+      const estilo = genre;
+      
+      // Construir la URL del endpoint, incluyendo los query parameters
+      const url = `/productos/nuevo/${userId}?nombre=${encodeURIComponent(nombre)}&product_type=${encodeURIComponent(productType)}&precio=${encodeURIComponent(precio)}&imagen=${encodeURIComponent(imagen)}&estilo=${encodeURIComponent(estilo)}`;
+      
+      try {
+        const response = await fetch(url, { method: 'POST' });
+        if (response.ok) {
+          const data = await response.json();
+          alert(data.message);
+          // Redirigir al endpoint de productos musicales del artista
+          window.location.href = `/getProdMusicalesArtista/${userId}`;
+        } else {
+          const errorData = await response.json();
+          alert("Error al subir el producto: " + errorData.detail);
+        }
+      } catch (error) {
+        alert("Error al subir el producto: " + error);
+      }
+    });
+  </script>
+</body>
+</html>

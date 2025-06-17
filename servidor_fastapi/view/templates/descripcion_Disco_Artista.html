@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Descripción de Disco - UnderSound</title>
+    <!-- Enlaza el mismo archivo CSS -->
+    <link rel="stylesheet" href="/css/style_descripcion_Producto.css" />
+
+</head>
+<body>
+  <div id="header"></div>
+  {% include 'header1_Artista.html' %}
+
+  <!-- Contenido principal -->
+  <main class="description-container">
+    <!-- Información del disco -->
+    <div class="product-info">
+      <h1>{{ disco.nombre }}</h1>
+      <h2>Descripción:</h2>
+      <p><strong>Precio:</strong> {{ disco.precio }}$</p>
+
+
+      <!-- Botones de acción -->
+      <button onclick="buyNowRegistered('{{ disco.id }}')" class="btn">Comprar</button>
+      <button class="btn" onclick="addToCart('{{ disco.id }}')">Añadir al carrito</button>
+
+      <div class="extra-link">
+        <a href="#">Comentar</a>
+      </div>
+    </div>
+
+    <!-- Carátula del disco -->
+    <div class="product-cover">
+      {% if disco.imagen %}
+        <img src="/img/{{ disco.imagen | default('placeholder.png') }}" alt="{{ disco.nombre }}" class="responsive-img">
+      {% else %}
+        <p>CARÁTULA DISCO</p>
+      {% endif %}
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer-placeholder"></div>
+  {% include 'footer.html' %}
+  
+  <script>
+    // Captura el clic en "Comentar"
+    const comentarLink = document.querySelector(".extra-link a");
+    if (comentarLink) {
+      comentarLink.addEventListener("click", function(event) {
+        event.preventDefault();
+        alert("Funcionalidad de comentarios no implementada.");
+      });
+    }
+
+    // Función placeholder para añadir al carrito
+    async function addToCart(productId) {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+          alert("Usuario no logueado.");
+          return false; // <-- AÑADIDO: Devolver false si no hay usuario
+        }
+        try {
+          const response = await fetch(`/carrito/add/${userId}/${productId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            }
+            // body: JSON.stringify({ quantity: 1 }) // Si envías cantidad
+          });
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Producto añadido correctamente:", data.message);
+            // Quitamos el alert aquí para que buyNowRegistered sea más fluido
+            // alert("Producto añadido al carrito.");
+            return true; // <-- AÑADIDO: Devolver true en caso de éxito
+          } else {
+            const errorData = await response.json();
+            console.error("Error en la petición:", errorData.detail || response.status);
+            alert("Error al añadir el producto al carrito.");
+            return false; // <-- AÑADIDO: Devolver false en caso de error de respuesta
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Error al añadir el producto al carrito.");
+          return false; // <-- AÑADIDO: Devolver false en caso de error de fetch/red
+        }
+        // No debería llegar aquí, pero por si acaso
+        return false;
+      }
+
+    async function buyNowRegistered(productId) {
+    console.log("Iniciando compra directa para usuario registrado:", productId);
+    // 1. Añadir al carrito
+    const added = await addToCart(productId);
+
+    // 2. Si se añadió correctamente, redirigir a pago
+    if (added) {
+      console.log("Producto añadido, redirigiendo a /pago");
+      window.location.href = '/pago';
+    } else {
+      console.log("No se pudo añadir el producto, no se redirige a pago.");
+      // El alert de error ya se mostró en addToCart
+    }
+  }
+    </script>
+</body>
+</html>

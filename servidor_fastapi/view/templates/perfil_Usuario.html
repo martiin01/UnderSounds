@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Usuario</title>
+    <link rel="stylesheet" href="/css/perfil_Usuario.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/allproductsPrincipalNo_log">
+                <img src="/img/logo_UnderSound.png" alt="Logo UnderSound" class="logo-banner">
+            </a>
+        </div>
+        <div class="header-buttons">
+            <button id="cerrar-sesion">Cerrar Sesión</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <h1>Perfil Usuario</h1>
+
+            <!-- Sección de datos de perfil -->
+            <section class="profile-data">
+                <div class="profile-details">
+                    <p><strong>Email:</strong> {{ perfil.email }}</p>
+                    <p><strong>Username:</strong> {{ perfil.username }}</p>
+                </div>
+                <div class="profile-photo">
+                    {% if perfil.image_url %}
+                        <img src="/img/{{ perfil.image_url }}" alt="Foto de perfil">
+                    {% else %}
+                        <p>Sin foto</p>
+                    {% endif %}
+                </div>
+            </section>
+
+            <!-- Formulario para actualizar datos -->
+            <form id="update-profile-form" method="post" action="/UpdateProfileUser/{{ perfil.id }}">
+                <label for="username">Cambiar Nombre Usuario</label>
+                <input type="text" id="username" name="username" placeholder="Nombre de Usuario" value="{{ perfil.username }}">
+                <button type="submit">Actualizar</button>
+            </form>
+
+            <section class="following">
+                <h2>Siguiendo</h2>
+                <div class="user">
+                    <span>@usu1</span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <button class="unfollow">Unfollow</button>
+                </div>
+                <div class="user">
+                    <span>@usu2</span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <button class="unfollow">Unfollow</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="footer-placeholder"></div>
+    {% include 'footer.html' %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const btnLogout = document.getElementById("cerrar-sesion");
+          if (btnLogout) { // Buena práctica verificar si el botón existe
+            btnLogout.addEventListener("click", async () => {
+              console.log("Botón Cerrar Sesión (Usuario) clickeado.");
+              // Limpiar userId de localStorage (sigue siendo útil si lo usas en el frontend)
+              localStorage.removeItem('userId');
+              console.log("userId eliminado de localStorage.");
+  
+              try {
+                // Llamar al endpoint backend /logout usando POST
+                const response = await fetch('/logout', { // Asegúrate que la ruta sea correcta (sin /auth si no hay prefijo)
+                  method: 'POST',
+                  headers: {
+                    'Accept': 'application/json' // Opcional, indica que prefieres JSON si hay error
+                  }
+                });
+  
+                // El backend se encarga de la redirección con RedirectResponse.
+                // El navegador seguirá automáticamente la redirección a /allproductsPrincipalNo_log
+                // después de que el backend elimine la cookie.
+                // No necesitas window.location.href aquí si el backend redirige.
+  
+                // Opcional: Manejar errores si el fetch falla o el backend no redirige
+                if (response.ok || response.redirected) {
+                  console.log("Llamada a /logout exitosa. Redirigiendo manualmente...");
+                  // Redirigir el navegador a la URL que indicó el backend O a la URL fija
+                  window.location.href = response.url || '/allproductsPrincipalNo_log'; // Usar response.url es más robusto
+                } else {
+                  // Si la respuesta no fue OK y tampoco una redirección, es un error real
+                  console.error("Error al llamar a /logout. Estado:", response.status);
+                  alert("Error al cerrar sesión. Inténtalo de nuevo.");
+                }
+  
+              } catch (error) {
+                console.error("Error de red al intentar cerrar sesión:", error);
+                alert("Error de red al cerrar sesión.");
+                // Fallback redirect
+                window.location.href = '/allproductsPrincipalNo_log';
+              }
+            });
+          } else {
+            console.error("Botón 'cerrar-sesion' no encontrado.");
+          }
+        });
+
+        document.getElementById("update-profile-form").addEventListener("submit", async (event) => {
+            event.preventDefault(); // Evitar el envío tradicional del formulario
+    
+            const form = event.target;
+            const formData = new FormData(form);
+    
+            try {
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    body: formData
+                });
+    
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(result.message); // Mostrar mensaje de éxito
+                    location.reload(); // Recargar la página para reflejar los cambios
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.detail}`);
+                }
+            } catch (error) {
+                console.error("Error al actualizar el perfil:", error);
+                alert("Error al actualizar el perfil. Inténtalo de nuevo.");
+            }
+        });
+      </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+  "artistImage": "../img/foto_artista.jpg",
+  "reviews": [
+    {
+      "user": "@MelodíaEterna",
+      "review": "Su voz es única, transmite tanto con cada nota... La canción nueva me hizo llorar."
+    },
+    {
+      "user": "@Beat_Collector",
+      "review": "Lo que más me gusta es cómo fusiona géneros."
+    },
+    {
+      "user": "@RetroVibes93",
+      "review": "Extraño un poco su sonido de antes, más orgánico y menos comercial."
+    },
+    {
+      "user": "@LiveSessions",
+      "review": "Tuve la suerte de verlo/a en vivo y fue una locura. La energía, los visuales, la conexión con el público..."
+    }
+  ],
+  "albums": [
+    {
+      "title": "Álbum de Debut",
+      "type": "Álbum",
+      "year": 2018
+    },
+    {
+      "title": "EP Sorpresa",
+      "type": "EP",
+      "year": 2019
+    },
+    {
+      "title": "Segundo Álbum",
+      "type": "Álbum",
+      "year": 2021
+    }
+  ]
+}

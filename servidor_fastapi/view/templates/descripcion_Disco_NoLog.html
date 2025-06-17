@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ disco.nombre }} - UnderSound</title>
+    <link rel="stylesheet" href="/css/style_descripcion_Producto.css" />
+  </head>
+  <body>
+    {% include 'header1_NoLog.html' %}
+
+    <main class="description-container">
+      <!-- Información del disco -->
+      <div class="product-info">
+        <h1>{{ disco.nombre }}</h1>
+        <h2>Descripción:</h2>
+        <p><strong>Precio:</strong> <span id="product-price">{{ disco.precio }}</span>$</p>
+        <input type="hidden" id="product-id" value="{{ disco.id }}">
+        <input type="hidden" id="product-name" value="{{ disco.nombre }}">
+        <input type="hidden" id="product-image" value="{{ disco.imagen | default('placeholder.png') }}">
+
+        <!-- Botones de acción -->
+        <button id="buy-now-button" class="btn">Comprar</button>
+        <button class="btn" onclick="addToCart()">Añadir al carrito</button>
+
+        <div class="extra-link">
+          <a href="#">Comentar</a>
+        </div>
+      </div>
+
+      <!-- Carátula del disco -->
+      <div class="product-cover">
+        {% if disco.imagen %}
+          <img src="/img/{{ disco.imagen | default('placeholder.png') }}" alt="{{ disco.nombre }}" class="responsive-img">
+        {% else %}
+          <p>CARÁTULA DISCO</p>
+        {% endif %}
+      </div>
+    </main>
+
+    {% include 'footer.html' %}
+
+    <script>
+      // --- Lógica para "Comprar ahora" ---
+      const buyNowButton = document.getElementById('buy-now-button');
+      if (buyNowButton) {
+        buyNowButton.addEventListener('click', () => {
+          try {
+            const productId = document.getElementById('product-id').value;
+            const productName = document.getElementById('product-name').value;
+            const productPrice = parseFloat(document.getElementById('product-price').textContent);
+            const productImage = document.getElementById('product-image').value;
+
+            if (!productId || !productName || isNaN(productPrice) || productPrice <= 0) {
+              console.error("Datos inválidos:", { productId, productName, productPrice });
+              alert("Error: No se pueden obtener los detalles completos del producto para la compra.");
+              return;
+            }
+
+            const productData = { id: productId, name: productName, price: productPrice, image: productImage };
+            sessionStorage.setItem('singleProductToBuy', JSON.stringify(productData));
+            window.location.href = '/pago';
+          } catch (error) {
+            console.error("Error 'Comprar ahora':", error);
+            alert("Ocurrió un error al intentar iniciar la compra.");
+          }
+        });
+      }
+
+      // --- Lógica para "Comentar" ---
+      const comentarLink = document.querySelector(".extra-link a");
+      if (comentarLink) {
+        comentarLink.addEventListener("click", event => {
+          event.preventDefault();
+          alert("Funcionalidad de comentarios no implementada.");
+        });
+      }
+
+      // --- Añadir al carrito de invitado ---
+      async function addToCart() {
+        const productId = document.getElementById('product-id').value;
+        // const userId = 1; // Ya no se necesita para el fetch
+
+        // --- ELIMINAR O COMENTAR ESTE BLOQUE ---
+        /*
+        // 1) Llamada al backend (INCORRECTO para carrito local)
+        try {
+          const response = await fetch(`/carrito/add/1/${productId}`, { // Usaba ID fijo 1
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+          });
+          if (!response.ok) {
+            const err = await response.json();
+            console.error("Error backend:", err.detail || response.status);
+            alert("Error al añadir el producto al carrito (backend)."); // Mensaje más específico
+            return; // Detener si falla el backend (ya no aplica)
+          }
+          console.log("Llamada a backend /carrito/add/1/... OK (aunque no debería hacerse)"); // Log si se deja por error
+        } catch (error) {
+          console.error("Error fetch:", error);
+          alert("Error de red al intentar añadir al carrito (backend)."); // Mensaje más específico
+          return; // Detener si falla el fetch (ya no aplica)
+        }
+        */
+        // --- FIN BLOQUE ELIMINADO/COMENTADO ---
+
+        // 2) Actualizar carrito en localStorage (CORRECTO - Mantener esta parte)
+        try { // Añadir try/catch por si falla JSON.parse o similar
+            const prod = {
+              id: productId,
+              nombre: document.getElementById('product-name').value,
+              // Asegúrate que el precio se lea correctamente como número
+              precio: parseFloat(document.getElementById('product-price').textContent.replace('$', '').replace(',', '.')) || 0,
+              imagen: document.getElementById('product-image').value,
+              cantidad: 1
+            };
+
+            if (isNaN(prod.precio) || prod.precio <= 0) {
+                console.error("Precio inválido detectado:", document.getElementById('product-price').textContent);
+                alert("Error: El precio del producto no es válido.");
+                return;
+            }
+
+            let cart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+            const existente = cart.find(p => p.id === prod.id);
+            if (existente) {
+              existente.cantidad += 1;
+            } else {
+              cart.push(prod);
+            }
+            localStorage.setItem('guestCart', JSON.stringify(cart));
+
+            console.log("Producto añadido/actualizado en localStorage 'guestCart'");
+            alert("Producto añadido al carrito.");
+
+        } catch (error) {
+            console.error("Error actualizando localStorage:", error);
+            alert("Error al guardar el producto en el carrito local.");
+        }
+      }
+    </script>
+  </body>
+</html>

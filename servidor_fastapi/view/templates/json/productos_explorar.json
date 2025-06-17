@@ -1,0 +1,33 @@
+[
+    { "nombre": "Producto 1", "imagen": "../img/1.jpg ", "precio": 10, "fecha": "2024-01-05", "link": "../descripcion_Disco_Artista.html", "tipo": "Vinilos", "estilo": "Rock" },
+    { "nombre": "Producto 2", "imagen": "../img/2.jpg", "precio": 15, "fecha": "2023-12-10", "link": "../descripcion_Disco_Artista.html", "tipo": "D.Compactos", "estilo": "Pop" },
+    { "nombre": "Producto 3", "imagen": "../img/3.jpg", "precio": 20, "fecha": "2023-11-20", "link": "../descripcion_Disco_Artista.html", "tipo": "D.Compactos", "estilo": "Jazz" },
+    { "nombre": "Producto 4", "imagen": "../img/4.jpg", "precio": 25, "fecha": "2024-02-15", "link": "../descripcion_Disco_Artista.html", "tipo": "Cassettes", "estilo": "Reggaeton" },
+    { "nombre": "Producto 5", "imagen": "../img/5.jpg", "precio": 30, "fecha": "2023-09-30", "link": "../descripcion_Disco_Artista.html", "tipo": "Vinilos", "estilo": "Punk" },
+    { "nombre": "Producto 6", "imagen": "../img/6.jpg", "precio": 35, "fecha": "2024-03-12", "link": "../descripcion_Disco_Artista.html", "tipo": "D.Compactos", "estilo": "Country" },
+    { "nombre": "Producto 7", "imagen": "../img/7.jpg", "precio": 40, "fecha": "2023-07-18", "link": "../descripcion_Disco_Artista.html", "tipo": "D.Compactos", "estilo": "Rock" },
+    { "nombre": "Producto 8", "imagen": "../img/8.jpg", "precio": 45, "fecha": "2024-04-01", "link": "../descripcion_Disco_Artista.html", "tipo": "Cassettes", "estilo": "Jazz" },
+
+
+    { "nombre": "Producto 9", "imagen": "../img/9.JPG", "precio": 15, "fecha": "2022-05-03", "link": "../descripcion_Camiseta_Artista.html", "tipo": "Camisetas", "estilo": "Rock" },
+    { "nombre": "Producto 10", "imagen": "../img/10.JPG", "precio": 25, "fecha": "2024-02-02", "link": "../descripcion_Camiseta_Artista.html", "tipo": "Camisetas", "estilo": "Punk" },
+    { "nombre": "Producto 11", "imagen": "../img/11.JPG", "precio": 30, "fecha": "2020-07-01", "link": "../descripcion_Camiseta_Artista.html", "tipo": "Camisetas", "estilo": "Jazz" },
+    { "nombre": "Producto 12", "imagen": "../img/12.JPG", "precio": 17, "fecha": "2025-04-01", "link": "../descripcion_Camiseta_Artista.html", "tipo": "Camisetas", "estilo": "Pop" },
+    { "nombre": "Producto 13", "imagen": "../img/13.JPG", "precio": 33, "fecha": "2021-11-10", "link": "../descripcion_Camiseta_Artista.html", "tipo": "Camisetas", "estilo": "Rock" },
+    { "nombre": "Producto 14", "imagen": "../img/14.JPG", "precio": 20, "fecha": "2024-04-01", "link": "../descripcion_Camiseta_Artista.html", "tipo": "Camisetas", "estilo": "Reggaeton" },
+   
+    { "nombre": "Producto 15", "imagen": "../img/15.JPG", "precio": 17, "fecha": "2021-06-06", "link": "../descripcion_Disco_Artista.html", "tipo": "Cassettes", "estilo": "Pop" },
+    { "nombre": "Producto 16", "imagen": "../img/16.JPG", "precio": 22, "fecha": "2022-03-10", "link": "../descripcion_Disco_Artista.html", "tipo": "Cassettes", "estilo": "Pop" },
+    { "nombre": "Producto 17", "imagen": "../img/17.JPG", "precio": 20, "fecha": "2024-04-01", "link": "../descripcion_Disco_Artista.html", "tipo": "Cassettes", "estilo": "Reggaeton" },
+    { "nombre": "Producto 18", "imagen": "../img/18.JPG", "precio": 25, "fecha": "2024-03-30", "link": "../descripcion_Disco_Artista.html", "tipo": "Cassettes", "estilo": "Jazz" },
+    { "nombre": "Producto 19", "imagen": "../img/19.JPG", "precio": 17, "fecha": "2024-08-25", "link": "../descripcion_Disco_Artista.html", "tipo": "Cassettes", "estilo": "Pop" },
+    
+    { "nombre": "Producto 20", "imagen": "../img/20.JPG", "precio": 22, "fecha": "2024-12-25", "link": "../descripcion_Disco_Artista.html", "tipo": "D.Compactos", "estilo": "Pop" },
+    { "nombre": "Producto 21", "imagen": "../img/21.JPG", "precio": 20, "fecha": "2021-05-07", "link": "../descripcion_Disco_Artista.html", "tipo": "D.Compactos", "estilo": "Reggaeton" },
+    { "nombre": "Producto 22", "imagen": "../img/22.JPG", "precio": 25, "fecha": "2018-10-11", "link": "../descripcion_Disco_Artista.html", "tipo": "D.Compactos", "estilo": "Jazz" },
+
+    { "nombre": "Producto 23", "imagen": "../img/23.JPG", "precio": 22, "fecha": "2020-12-11", "link": "../descripcion_Disco_Artista.html", "tipo": "D.Compactos", "estilo": "Pop" },
+    { "nombre": "Producto 24", "imagen": "../img/24.JPG", "precio": 20, "fecha": "2025-08-09", "link": "../descripcion_Disco_Artista.html", "tipo": "D.Compactos", "estilo": "Reggaeton" },
+    { "nombre": "Producto 25", "imagen": "../img/25.JPG", "precio": 25, "fecha": "2018-01-10", "link": "../descripcion_Disco_Artista.html", "tipo": "D.Compactos", "estilo": "Jazz" }
+
+]

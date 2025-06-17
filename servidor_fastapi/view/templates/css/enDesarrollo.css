@@ -1,0 +1,200 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ocupa toda la altura de la ventana */
+}
+
+/* HEADER */
+header {
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.header-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 250px;
+}
+
+.search-container .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.search-container .search-button img {
+    width: 16px;
+    height: 16px;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.auth-buttons .register {
+    background-color: #28a745;
+}
+
+.cart-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.cart-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.cart-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.cart-button img {
+    
+    width: 30px;
+    height: 30px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.cart-button img:hover {
+    transform: scale(1.1);
+}
+
+.profile-button img {
+    width: 35px; /* Ajusta el tamaño del icono */
+    height: 35px;
+    border-radius: 50%; /* Hace que la imagen sea redonda */
+    border: 2px solid #ddd; /* Opcional: añade un borde */
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.profile-button img:hover {
+    transform: scale(1.1);
+}
+
+
+/* Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1; /* Permite que el container ocupe todo el espacio disponible entre el header y el footer */
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+p {
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center; /* Asegura que el texto esté centrado */
+}
+
+.redirect-button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.redirect-button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer */
+footer {
+    width: 100%; /* Asegura que el footer ocupe todo el ancho */
+    background-color: #333; /* Fondo oscuro */
+    color: white; /* Texto blanco */
+    padding: 20px; /* Espaciado interno */
+    box-sizing: border-box; /* Incluye el padding en el ancho total */
+}
+
+footer .footer-links {
+    display: flex; /* Coloca las columnas en fila */
+    justify-content: space-between; /* Mantén las columnas separadas uniformemente */
+    max-width: 1200px; /* Limita el ancho del contenido */
+    margin: 0 auto; /* Centra el contenido horizontalmente */
+}
+
+footer .footer-links div {
+    text-align: left; /* Alinea todo el contenido de cada columna, incluidos los títulos y los enlaces, a la izquierda */
+}
+
+footer .footer-links h4 {
+    margin-bottom: 10px; /* Espaciado inferior entre el título y los enlaces */
+    font-size: 18px; /* Tamaño de fuente para los títulos */
+}
+
+footer .footer-links p {
+    margin: 5px 0; /* Espaciado entre los enlaces */
+    text-align: left; /* Asegura la alineación a la izquierda de los párrafos */
+}
+
+footer .footer-links a {
+    color: white; /* Colorea los enlaces de blanco */
+    text-decoration: none; /* Elimina el subrayado */
+    text-align: left; /* Asegura la alineación de los enlaces a la izquierda */
+}
+
+footer .footer-links a:hover {
+    text-decoration: underline; /* Subraya los enlaces al pasar el mouse */
+}
+
+
+  

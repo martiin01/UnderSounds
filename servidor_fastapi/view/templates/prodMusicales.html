@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos Musicales</title>
+  <link rel="stylesheet" href="/css/prodMusicales.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <div id="header"></div>
+  {% include 'header1_Artista.html' %}
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div class="main-container">
+    <div class="section-header">
+      <h1>Productos Musicales</h1>
+      <button class="btn-nuevo" onclick="window.location.href='/getSubirProdMusicales'">Nuevo</button>
+    </div>
+    
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-type="cds" onclick="loadProducts('cds')">CDs</button>
+      <button class="filter-btn" data-type="digital" onclick="loadProducts('digital')">Digital</button>
+      <button class="filter-btn" data-type="cassettes" onclick="loadProducts('cassettes')">Cassettes</button>
+      <button class="filter-btn" data-type="vinilos" onclick="loadProducts('vinilos')">Vinilos</button>
+    </div>
+    
+    <!-- Lista de productos -->
+    <div class="product-list" id="product-list">
+      <!-- Los productos se cargarán aquí dinámicamente -->
+    </div>
+  </div>
+  
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  {% include 'footer.html' %}
+  
+  <script>
+    // Construir manualmente el arreglo de productos a partir del parámetro Jinja2 "productos"
+    const productsData = [
+    {% for item in productos %}
+      {
+        id: "{{ item.id }}",
+        nombre: "{{ item.nombre }}",
+        imagen: "{{ item.imagen }}",
+        precio: "{{ item.precio }}",
+        fecha: "{{ item.fecha }}",
+        tipo: "{{ item.tipo }}"
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+    ];
+    
+    // Función para cargar y mostrar productos según su categoría
+    function loadProducts(type) {
+      // Actualizar botones activos
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.filter-btn[data-type="${type}"]`).classList.add('active');
+      
+      // Filtrar productos según su atributo "tipo"
+      const filtered = productsData.filter(item => item.tipo === type);
+      
+      const container = document.getElementById('product-list');
+      container.innerHTML = ''; // Limpiar la lista
+      
+      if (filtered.length > 0) {
+        filtered.forEach(item => {
+          // Crear contenedor principal del producto
+          const productItem = document.createElement('div');
+          productItem.classList.add('product-item');
+          
+          // Sección de imagen
+          const productImage = document.createElement('div');
+          productImage.classList.add('product-image');
+          productImage.innerHTML = `<img src="/img/${item.imagen}" alt="${item.nombre}">`;
+          
+          // Sección de información
+          const productInfo = document.createElement('div');
+          productInfo.classList.add('product-info');
+          productInfo.innerHTML = `
+            <h2>${item.nombre}</h2>
+            <p>Precio: $${item.precio}</p>
+            <p>Fecha: ${item.fecha}</p>
+            <p>Tipo: ${item.tipo}</p>
+          `;
+          
+          // Sección de botones de acción
+          const productActions = document.createElement('div');
+          productActions.classList.add('product-actions');
+          const infoBtn = document.createElement('button');
+          infoBtn.classList.add('action-btn', 'info-btn');
+          infoBtn.textContent = 'Más Información';
+          infoBtn.addEventListener('click', () => {
+            window.location.href = `/getDetalleProductoArtista/${item.id}`;
+          });
+          productActions.appendChild(infoBtn);
+          
+          // Ensamblar las secciones en el contenedor del producto
+          productItem.appendChild(productImage);
+          productItem.appendChild(productInfo);
+          productItem.appendChild(productActions);
+          
+          container.appendChild(productItem);
+        });
+      } else {
+        container.innerHTML = '<p>No hay productos disponibles en esta categoría.</p>';
+      }
+    }
+    
+    // Cargar por defecto la categoría "cds" al iniciar
+    window.addEventListener('DOMContentLoaded', () => {
+      loadProducts('cds');
+    });
+  </script>
+</body>
+</html>

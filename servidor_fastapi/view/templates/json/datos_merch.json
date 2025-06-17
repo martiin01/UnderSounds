@@ -1,0 +1,59 @@
+{
+  "camisetas": [
+    {
+      "name": "Camiseta Negra",
+      "color": "Negro",
+      "sizes": "S, M, L, XL",
+      "price": 15.00,
+      "stock": 20,
+      "date": "2025-03-05",
+      "coverUrl": "../img/camiseta.jpeg"
+    },
+    {
+      "name": "Camiseta Blanca",
+      "color": "Blanco",
+      "sizes": "S, M, L, XL",
+      "price": 14.00,
+      "stock": 15,
+      "date": "2025-03-06",
+      "coverUrl": "../img/camiseta.jpeg"
+    },
+    {
+      "name": "Camiseta Roja",
+      "color": "Rojo",
+      "sizes": "M, L, XL",
+      "price": 16.50,
+      "stock": 10,
+      "date": "2025-02-20",
+      "coverUrl": "../img/camiseta.jpeg"
+    },
+    {
+      "name": "Camiseta Azul",
+      "color": "Azul",
+      "sizes": "S, M, L",
+      "price": 15.50,
+      "stock": 25,
+      "date": "2025-02-25",
+      "coverUrl": "../img/camiseta.jpeg"
+    },
+    {
+      "name": "Camiseta Verde",
+      "color": "Verde",
+      "sizes": "M, L, XL",
+      "price": 15.75,
+      "stock": 18,
+      "date": "2025-03-10",
+      "coverUrl": "../img/camiseta.jpeg"
+    }
+  ],
+  "otros": [
+    {
+      "name": "Poster Rock",
+      "color": "Verde",
+      "price": 10.00,
+      "stock": 20,
+      "date": "2025-03-03",
+      "coverUrl": "../img/poster.jpeg"
+    }
+  ]
+}

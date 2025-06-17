@@ -1,0 +1,205 @@
+/* Reseteo básico y configuración del body */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    display: flex;
+    flex-direction: column; /* Para el footer al final */
+}
+
+/* Header */
+header {
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.header-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 250px;
+}
+
+.search-container .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.search-container .search-button img {
+    width: 16px;
+    height: 16px;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.auth-buttons .register {
+    background-color: #28a745;
+}
+
+.cart-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.cart-button img {
+    
+    width: 35px;
+    height: 35px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.cart-button img:hover {
+    transform: scale(1.1);
+}
+
+.profile-button img {
+    width: 35px; /* Ajusta el tamaño del icono */
+    height: 35px;
+    border-radius: 50%; /* Hace que la imagen sea redonda */
+    border: 2px solid #ddd; /* Opcional: añade un borde */
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.profile-button img:hover {
+    transform: scale(1.1);
+}
+
+/* Contenedor principal */
+.description-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    flex: 1; /* Permite que el contenido principal crezca */
+}
+
+/* Elementos de imagen */
+.main-image,
+.product-cover {
+    flex: 1 1 250px;
+    background-color: #ccc;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Info del producto */
+.product-info {
+    flex: 2 1 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.product-info h1 {
+    margin-bottom: 10px;
+}
+
+.product-info h2 {
+    margin-top: 10px;
+}
+
+.product-info p {
+    margin-bottom: 5px;
+}
+
+
+  
+.main-image img,
+.product-cover img {
+width: 100%;
+height: 100%;
+object-fit: cover; /* recorta la imagen manteniendo relleno completo */
+}
+
+/* Botones y enlaces */
+.btn {
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #333;
+}
+
+.extra-link {
+    margin-top: 10px;
+}
+
+.extra-link a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.extra-link a:hover {
+    text-decoration: underline;
+}
+

@@ -1,0 +1,114 @@
+<header>
+    <div class="header-container">
+      <div class="logo">
+        <!-- href se actualizará mediante JS -->
+        <a href="#" class="logo-link">
+          <img src="/img/logo_UnderSound.png" alt="Logo">
+        </a>
+      </div>
+      <div class="search-container">
+        <input type="text" placeholder="Buscar artista, álbum o pista">
+        <button class="search-button">
+          <img src="/img/lupa-icono.png" alt="Buscar">
+        </button>
+      </div>
+      <div class="auth-buttons">
+        <!-- Aquí podrías añadir botones de acción específicos si hiciera falta -->
+        <a href="#" class="cart-button">
+          <img src="/img/carrito.png" alt="Carrito de Compras">
+        </a>
+      </div>
+      <div class="profile-button">
+        <a href="#" class="profile-link">
+          <img src="/img/perfil.jpg" alt="Perfil">
+        </a>
+      </div>
+    </div>
+  
+    <style>
+      header {
+        width: 100%;
+        background-color: white;
+        border-bottom: 1px solid #ddd;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 15px 30px;
+        display: flex;
+        justify-content: center;
+      }
+      .header-container {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .logo img {
+        max-height: 50px;
+      }
+      .search-container {
+        display: flex;
+        align-items: center;
+      }
+      .search-container input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        width: 250px;
+      }
+      .search-container .search-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .search-container .search-button img {
+        width: 16px;
+        height: 16px;
+      }
+      .auth-buttons {
+        display: flex;
+        gap: 10px;
+      }
+      .cart-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+      }
+      .cart-button img {
+        width: 30px;
+        height: 30px;
+        transition: transform 0.2s ease-in-out;
+      }
+      .cart-button img:hover {
+        transform: scale(1.1);
+      }
+      .profile-button img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+      }
+      .profile-button img:hover {
+        transform: scale(1.1);
+      }
+    </style>
+  
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const userId = localStorage.getItem('userId');
+        const artistId = localStorage.getItem('userId');
+  
+        // Enlaces dinámicos:
+        document.querySelector(".logo-link").href = '/allproductsPrincipalArtista';
+        document.querySelector(".cart-button").href = `/carritoArtista/${userId}`;
+        document.querySelector(".profile-link").href = `/getArtistProfile/${artistId}`;
+      });
+    </script>
+  </header>
+  

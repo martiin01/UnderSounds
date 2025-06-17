@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tus Merch</title>
+  <link rel="stylesheet" href="/css/tus_merch.css" />
+</head>
+<body>
+  {% include 'header1_Artista.html' %}
+  <div class="container">
+    <main>
+      <div class="section-header">
+        <h1>Merchandising</h1>
+        <button class="btn-nuevo" onclick="window.location.href='/getSubirMerch'">Nuevo</button>
+      </div>
+      {% set camisetas = productos | selectattr("tipo", "equalto", "camisetas") | list %}
+      <div class="merch-list">
+        {% if camisetas %}
+          {% for item in camisetas %}
+          <div class="merch-item">
+            <!-- Portada del producto -->
+            <div class="merch-cover">
+              <img src="/img/{{ item.imagen }}" alt="{{ item.nombre }}">
+            </div>
+            <!-- Información básica del producto (según el DTO) -->
+            <div class="merch-info">
+              <h2>{{ item.nombre }}</h2>
+              <p>Precio: ${{ item.precio }}</p>
+              <p>Fecha: {{ item.fecha }}</p>
+              <p>Tipo: {{ item.tipo }}</p>
+            </div>
+            <!-- Botón para ver más detalles -->
+            <div class="merch-extra">
+              <a href="/getDetalleProductoArtista/{{ item.id }}">
+                <button class="info-btn">MÁS INFORMACIÓN</button>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p>Todavía no tienes ningún producto de tipo camisetas.</p>
+        {% endif %}
+      </div>
+    </main>
+  </div>
+  {% include 'footer.html' %}
+</body>
+</html>

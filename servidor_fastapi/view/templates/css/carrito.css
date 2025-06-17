@@ -1,0 +1,229 @@
+/* Estilos Generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Header */
+header {
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.header-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 250px;
+}
+
+.search-container .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.search-container .search-button img {
+    width: 16px;
+    height: 16px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-size: 16px;
+    color: black;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: gray;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.auth-buttons .register {
+    background-color: #28a745;
+}
+
+/* Estilos para los botones del carrito en el header */
+.cart-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.cart-button img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.cart-button img:hover {
+    transform: scale(1.1);
+}
+
+.profile-button img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.profile-button img:hover {
+    transform: scale(1.1);
+}
+
+/* Main */
+main {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor del Carrito */
+.cart-container {
+    margin: 20px 0;
+}
+
+/* Cada ítem del carrito */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.item-details {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.item-name {
+    font-weight: bold;
+}
+
+.item-price {
+    color: #0073e6;
+}
+
+/* Controles de cantidad */
+.quantity {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.quantity-btn {
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.quantity-input {
+    width: 40px;
+    text-align: center;
+    padding: 5px;
+}
+
+/* Botón para eliminar producto */
+.remove-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+/* Opciones del carrito */
+.cart-options {
+    margin: 20px 0;
+}
+
+.cart-options label {
+    font-size: 16px;
+    margin-right: 15px;
+}
+
+/* Botones del carrito (Pago y Volver) */
+.cart-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.cart-buttons a {
+    text-decoration: none;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}

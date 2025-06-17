@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDs</title>
+    <link rel="stylesheet" href="/css/pag_cds.css">
+</head>
+<body>
+
+    {% include 'header1_NoLog.html' %}
+
+    <div class="filter">
+        <label for="ordenar-nolog">Ordenar por:</label>
+        <select id="ordenar-nolog">
+            <option value="precio-asc">Precio ascendente</option>
+            <option value="precio-desc">Precio descendente</option>
+            <option value="nombre-asc">Nombre ascendente (A-Z)</option>
+            <option value="nombre-desc">Nombre descendente (Z-A)</option>
+            <option value="fecha-asc">Fecha ascendente</option>
+            <option value="fecha-desc">Fecha descendente</option>
+        </select>
+    </div>
+
+    <!-- Sección de productos -->
+    <section class="productos">
+        <h2>CDS</h2>
+        <div id="contenedor-productos-nolog" class="productos-grid">
+          {% if productos %}
+            {% for producto in productos %}
+              <div class="producto"
+                   data-categoria="{{ producto.tipo }}"
+                   data-estilo="{{ producto.estilo }}"
+                   data-precio="{{ producto.precio }}"
+                   data-nombre="{{ producto.nombre }}"
+                   data-fecha="{{ producto.fecha }}">
+                <a href="/getDetalleDiscoNo_log/{{ producto.id }}">
+                  <img src="/img/{{ producto.imagen | default('placeholder.png') }}"
+                       alt="{{ producto.nombre }}">
+                </a>
+                <h3>
+                  <a href="/getDetalleDiscoNo_log/{{ producto.id }}">
+                    {{ producto.nombre }}
+                  </a>
+                </h3>
+                <p>Precio: {{ producto.precio }}€</p>
+                <button class="btn-add-cart"
+                        onclick="addToCart('{{ producto.id }}')">
+                  Añadir al carrito
+                </button>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>No hay productos para mostrar.</p>
+          {% endif %}
+        </div>
+
+        <!-- Paginación -->
+        <div id="paginacion-nolog" class="paginacion"></div>
+    </section>
+
+    {% include 'footer.html' %}
+
+    <!-- Función para añadir al carrito -->
+    <script>
+        function addToCart(productId) {
+            console.log("Añadir al carrito:", productId);
+            alert(`Producto ${productId} añadido al carrito (simulación).`);
+        }
+    </script>
+
+    <!-- Script -->
+    <script src="/js/pag_cds.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "compra": [
+    {
+      "name": "Disco Clásico",
+      "price": "25",
+      "date": "15/03/2025"
+    },
+    {
+      "name": "Camiseta de Tour",
+      "price": "20",
+      "date": "01/04/2025"
+    },
+    {
+      "name": "Vinilo Edición Especial",
+      "price": "40",
+      "date": "07/04/2025"
+    }
+  
+  ]
+}

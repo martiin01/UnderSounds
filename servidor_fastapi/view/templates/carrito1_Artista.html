@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Carrito</title>
+    <link rel="stylesheet" href="/css/carrito.css">
+</head>
+<body>
+    <div id="header"></div>
+    {% include 'header1_Artista.html' %}
+    
+    <main>
+        <h1>Mi Carrito</h1>
+        <p>Revisa los productos en tu carrito antes de proceder al pago:</p>
+        
+        <div class="cart-container" id="cart-container">
+            {% if productos %}
+                {% for producto in productos %}
+                    <!-- Ejemplo de sección de cada ítem del carrito -->
+                    <div class="cart-item" data-index="{{ loop.index0 }}">
+                      <div class="item-details">
+                        <img src="/img/{{ producto.imagen }}" alt="{{ producto.nombre }}" class="item-image">
+                        <p class="item-name">{{ producto.nombre }}</p>
+                        <span class="item-price">${{ producto.precio }}</span>
+                      </div>
+                      <div class="quantity">
+                        <!-- Botón para restar -->
+                        <button class="quantity-btn" onclick="subtractItem('{{ producto.id }}', {{ loop.index0 }})">-</button>
+                        <input type="text" value="{{ producto.cantidad }}" class="quantity-input" id="cantidad-{{ loop.index0 }}">
+                        <!-- Botón para sumar -->
+                        <button class="quantity-btn" onclick="addItem('{{ producto.id }}', {{ loop.index0 }})">+</button>
+                      </div>
+                      <!-- Botón para eliminar -->
+                      <button class="remove-btn" onclick="deleteItem('{{ producto.id }}', {{ loop.index0 }})">Eliminar</button>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No hay productos en el carrito.</p>
+            {% endif %}
+        </div>
+
+        <div class="cart-options">
+            <label>
+                <input type="checkbox"> Comprar como regalo (incluye envoltura)
+            </label>
+            <br>
+            <label>
+                <input type="checkbox"> Suscribirse al boletín para recibir ofertas y promociones
+            </label>
+        </div>
+
+        <div class="cart-buttons">
+          <!-- CORREGIDO: Enlace directo a /pago -->
+          <a href="/pago" class="pay-btn">Pagar</a>
+          <!-- CORREGIDO: Enlace a la página principal correcta -->
+          <a href="/allproductsPrincipalArtista" class="return-btn">Volver a la tienda</a>
+      </div>
+    </main>
+
+    <!-- Insert in your HTML files where you want the footer -->
+    <div id="footer-placeholder"></div>
+    {% include 'footer.html' %}
+
+    <script>
+        // Función para sumar (añadir) producto
+        async function addItem(productId, index) {
+          const userId = localStorage.getItem('userId');
+          if (!userId) {
+            alert("Usuario no logueado.");
+            return;
+          }
+          try {
+            const response = await fetch(`/carrito/add/${userId}/${productId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              }
+              
+            });
+            if (response.ok) {
+              
+              const cantidadInput = document.getElementById(`cantidad-${index}`);
+              cantidadInput.value = parseInt(cantidadInput.value) + 1;
+              alert("Producto añadido al carrito.");
+            } else {
+              alert("Error al añadir producto.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Error al añadir producto.");
+          }
+        }
+  
+        // Función para restar producto (solo si la cantidad es mayor que 1)
+        async function subtractItem(productId, index) {
+          const userId = localStorage.getItem('userId');
+          if (!userId) {
+            alert("Usuario no logueado.");
+            return;
+          }
+          try {
+            const cantidadInput = document.getElementById(`cantidad-${index}`);
+            if (parseInt(cantidadInput.value) === 1) {
+              alert("La cantidad no puede ser menor a 1.");
+              return;
+            }
+            const response = await fetch(`/carrito/subtract/${userId}/${productId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              }
+              
+            });
+            if (response.ok) {
+              cantidadInput.value = Math.max(parseInt(cantidadInput.value) - 1, 1);
+              alert("Producto restado del carrito.");
+            } else {
+              alert("Error al restar producto.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Error al restar producto.");
+          }
+        }
+  
+        // Función para eliminar producto del carrito
+        async function deleteItem(productId, index) {
+          const userId = localStorage.getItem('userId');
+          if (!userId) {
+            alert("Usuario no logueado.");
+            return;
+          }
+          try {
+            const response = await fetch(`/carrito/delete/${userId}/${productId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              }
+            });
+            if (response.ok) {
+              // Eliminar el nodo del DOM o recargar la lista de productos
+              const cartItem = document.querySelector(`.cart-item[data-index="${index}"]`);
+              if (cartItem) {
+                cartItem.remove();
+              }
+              alert("Producto eliminado del carrito.");
+            } else {
+              alert("Error al eliminar producto.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Error al eliminar producto.");
+          }
+        }
+      </script>
+    
+</body>
+</html>

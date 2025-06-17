@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago - Usuario</title>
+    <link rel="stylesheet" href="/css/pago.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+
+    <div id="header"></div>
+    {% include 'header1_Usuario.html' %}
+
+    <main>
+        <h1>Introduce la dirección de envío</h1>
+        <!-- Formulario con ID y sin action -->
+        <form class="payment-form" id="payment-form">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" placeholder="Tu nombre" required>
+
+            <label for="country">País (Código ISO 2 letras, ej: ES)</label>
+            <input type="text" id="country" placeholder="ES" required>
+
+            <label for="address">Dirección</label>
+            <input type="text" id="address" placeholder="Tu dirección" required>
+
+            <div class="form-group">
+                <div>
+                    <label for="city">Ciudad</label>
+                    <input type="text" id="city" placeholder="Tu ciudad" required>
+                </div>
+                <div>
+                    <label for="postal-code">Código postal</label>
+                    <input type="text" id="postal-code" placeholder="Código postal" required>
+                </div>
+            </div>
+
+            <!-- Div para Stripe Elements -->
+            <label for="card-element">
+              Tarjeta de Crédito o Débito
+            </label>
+            <div id="card-element">
+              <!-- Un elemento de Stripe se insertará aquí -->
+            </div>
+
+            <!-- Div para mostrar errores de Stripe -->
+            <div id="card-errors" role="alert"></div>
+
+            <!-- Botón de submit -->
+            <button type="submit" class="pay-btn">Confirmar pago</button>
+        </form>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    {% include 'footer.html' %}
+
+    <!-- JavaScript para Stripe (Exactamente igual que en pago_Artista.html) -->
+    <script>
+      
+        const stripePublicKey = "{{ pago.stripe_pk }}"; 
+        
+
+        // Verifica si la clave se insertó correctamente
+        if (!stripePublicKey || stripePublicKey === "{"+"{ pago.stripe_pk }"+"}") { ó
+            console.error("Error: Clave publicable de Stripe no encontrada o no renderizada.");
+            document.getElementById('card-errors').textContent = 'Error de configuración de pago (clave no encontrada).';
+        }
+
+        const stripe = Stripe(stripePublicKey);
+
+        // --- Crear Elementos de Stripe ---
+        const elements = stripe.elements();
+        const cardElement = elements.create('card', { hidePostalCode: true });
+        cardElement.mount('#card-element');
+
+        // --- Manejar errores de validación en tiempo real ---
+        const cardErrors = document.getElementById('card-errors');
+        cardElement.on('change', function(event) {
+            if (event.error) {
+                cardErrors.textContent = event.error.message;
+            } else {
+                cardErrors.textContent = '';
+            }
+        });
+
+        // --- Manejar Envío del Formulario ---
+        const form = document.getElementById('payment-form');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            submitButton.disabled = true;
+            cardErrors.textContent = '';
+
+            // --- 1. Crear Payment Intent (Llamada al Backend) ---
+            let clientSecret;
+            try {
+                // Usuario REGISTRADO: NO se envía 'amount'
+                const fetchOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({}),
+                    credentials: 'include'
+                };
+                console.log("Enviando intento de pago para USUARIO REGISTRADO");
+
+                const response = await fetch('/pago/create-payment-intent', fetchOptions);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Error al crear intento de pago.');
+                }
+                clientSecret = data.clientSecret;
+
+            } catch (error) {
+                console.error("Error al crear PaymentIntent:", error);
+                cardErrors.textContent = error.message || 'No se pudo iniciar el pago. Verifica tu carrito o inténtalo de nuevo.';
+                submitButton.disabled = false;
+                return;
+            }
+
+            // --- 2. Confirmar Pago con Stripe ---
+            if (clientSecret) {
+                console.log("Intentando confirmar pago con Stripe...");
+                const billingDetails = {
+                    name: document.getElementById('name')?.value || '',
+                    address: {
+                        line1: document.getElementById('address')?.value || '',
+                        city: document.getElementById('city')?.value || '',
+                        postal_code: document.getElementById('postal-code')?.value || '',
+                        country: document.getElementById('country')?.value || '',
+                    }
+                };
+
+                const { error, paymentIntent } = await stripe.confirmCardPayment(
+                    clientSecret, {
+                        payment_method: {
+                            card: cardElement,
+                            billing_details: billingDetails,
+                        }
+                    }
+                );
+
+                if (error) {
+                    console.error("Error al confirmar pago:", error);
+                    cardErrors.textContent = error.message;
+                    submitButton.disabled = false;
+                } else if (paymentIntent.status === 'succeeded') {
+                    console.log('¡Pago exitoso!');
+                    window.location.href = '/allproductsPrincipalUsuario';
+                } else {
+                     console.warn("Estado del pago inesperado:", paymentIntent.status);
+                     cardErrors.textContent = "El pago no se completó. Estado: " + paymentIntent.status;
+                     submitButton.disabled = false;
+                }
+            } else {
+                 cardErrors.textContent = 'Error interno al obtener la clave de pago.';
+                 submitButton.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+</html>

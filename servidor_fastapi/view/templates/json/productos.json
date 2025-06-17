@@ -1,0 +1,22 @@
+{
+    "camisetas": [
+      {
+        "nombre": "Camiseta Rock Legend",
+        "descripcion": "Camiseta negra con estampado de una leyenda del rock.",
+        "precio": "25$",
+        "valoracion": "4.5/5",
+        "imagen": "../img/camiseta_Rock.jpg"
+      }
+    ],
+    "discos": [
+      {
+        "nombre": "The Best of Rock",
+        "descripcion": "Una colección de los mejores éxitos del rock.",
+        "precio": "30$",
+        "valoracion": "5/5",
+        "imagen": "../img/disco_Rock1.jpg",
+        "cancion_muestra": "../audios/BassyFuture.mp3"
+      }
+    ]
+  }
+  

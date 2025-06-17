@@ -1,0 +1,12 @@
+# filepath: c:\Users\marti\Desktop\Uni\PI\Programacion_en_Internet\servidor_fastapi\docker-compose.yaml
+#version: '3.8' # Usa una versión más reciente si es posible
+services:
+  service:
+    build:
+      context: .
+      # No necesitas 'target' si tu Dockerfile es de una sola etapa
+    ports:
+      - "8000:8000" # Mapea host 8000 a contenedor 8000
+    # No necesitas 'command' aquí si el CMD en tu Dockerfile es correcto
+    # Si lo necesitas, asegúrate que coincida con el CMD del Dockerfile:
+    # command: uvicorn main:app --host 0.0.0.0 --port 8000

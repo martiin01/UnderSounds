@@ -1,0 +1,94 @@
+{
+  "products": [
+    {
+      "type": "disco",
+      "name": "Disco Rockero",
+      "price": 9.99,
+      "sales": 80
+    },
+    {
+      "type": "disco",
+      "name": "Disco Pop",
+      "price": 12.50,
+      "sales": 120
+    },
+    {
+      "type": "vinilo",
+      "name": "Vinilo Vintage",
+      "price": 20.00,
+      "sales": 15
+    },
+    {
+      "type": "vinilo",
+      "name": "Vinilo Moderno",
+      "price": 22.50,
+      "sales": 25
+    },
+    {
+      "type": "camiseta",
+      "name": "Camiseta Negra",
+      "price": 15.00,
+      "sales": 40
+    },
+    {
+      "type": "camiseta",
+      "name": "Camiseta Blanca",
+      "price": 14.00,
+      "sales": 25
+    },
+    {
+      "type": "digital",
+      "name": "Álbum Digital Especial",
+      "price": 8.99,
+      "sales": 60
+    },
+    {
+      "type": "cassettes",
+      "name": "Cassette Retro",
+      "price": 5.50,
+      "sales": 30
+    },
+    {
+      "type": "disco",
+      "name": "Disco Indie",
+      "price": 11.00,
+      "sales": 50
+    },
+    {
+      "type": "vinilo",
+      "name": "Vinilo Jazz",
+      "price": 18.00,
+      "sales": 10
+    },
+    {
+      "type": "camiseta",
+      "name": "Camiseta Limited",
+      "price": 20.00,
+      "sales": 5
+    },
+    {
+      "type": "digital",
+      "name": "Single Digital",
+      "price": 1.99,
+      "sales": 200
+    },
+    {
+      "type": "cassettes",
+      "name": "Cassette Deluxe",
+      "price": 6.50,
+      "sales": 18
+    },
+    {
+      "type": "digital",
+      "name": "EP Digital",
+      "price": 4.99,
+      "sales": 75
+    },
+    {
+      "type": "camiseta",
+      "name": "Camiseta Retro",
+      "price": 17.50,
+      "sales": 35
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subir Camiseta</title>
+  <link rel="stylesheet" href="/css/subir_prodMusicales.css">
+</head>
+<body>
+  <div id="header"></div>
+  {% include 'header1_Artista.html' %}
+  <div class="container">
+    <main>
+      <h1>Subir Camiseta</h1>
+      <form id="uploadForm">
+        <!-- Nombre del producto -->
+        <label for="product-name">Nombre</label>
+        <input type="text" id="product-name" placeholder="Nombre" required>
+        
+        <!-- Se eliminan los campos de tipo y de género -->
+        
+        <!-- Precio -->
+        <label for="price">Precio (€)</label>
+        <input type="number" id="price" name="price" placeholder="Precio del producto" step="0.01" min="0" required>
+        
+        <!-- Imagen de portada -->
+        <label for="cover-image">Imagen Portada</label>
+        <input type="file" id="cover-image" accept="image/*" required>
+        
+        <!-- Botón de submit -->
+        <button type="submit">Subir Producto</button>
+      </form>
+    </main>
+  </div>
+  <div id="footer-placeholder"></div>
+  {% include 'footer.html' %}
+  
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      
+      // Obtener el userId desde localStorage
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        alert("Usuario no logueado.");
+        return;
+      }
+      
+      // Recoger los valores del formulario
+      const nombre = document.getElementById('product-name').value;
+      const precio = document.getElementById('price').value;
+      
+      // Para la imagen, se obtiene el nombre del archivo (o se podría implementar una lógica de subida de archivos)
+      const coverImageInput = document.getElementById('cover-image');
+      let imagen = "";
+      if (coverImageInput.files && coverImageInput.files[0]) {
+        imagen = coverImageInput.files[0].name;
+      }
+      
+      // Como solo se podrán subir camisetas, se asignan de forma fija
+      const productType = "camisetas";
+      const estilo = "camisetas";
+      
+      // Construir la URL del endpoint, incluyendo los query parameters
+      const url = `/productos/nuevo/${userId}?nombre=${encodeURIComponent(nombre)}&product_type=${encodeURIComponent(productType)}&precio=${encodeURIComponent(precio)}&imagen=${encodeURIComponent(imagen)}&estilo=${encodeURIComponent(estilo)}`;
+      
+      try {
+        const response = await fetch(url, { method: 'POST' });
+        if (response.ok) {
+          const data = await response.json();
+          alert(data.message);
+          // Redirigir al endpoint de merchandising del artista usando userId
+          window.location.href = `/getMerchandisingArtista/${userId}`;
+        } else {
+          const errorData = await response.json();
+          alert("Error al subir el producto: " + errorData.detail);
+        }
+      } catch (error) {
+        alert("Error al subir el producto: " + error);
+      }
+    });
+  </script>
+</body>
+</html>

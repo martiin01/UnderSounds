@@ -1,0 +1,290 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    display: flex;
+    flex-direction: column; /* Para el footer al final */
+  }
+
+/* Header */
+header {
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.header-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 250px;
+}
+
+.search-container .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.search-container .search-button img {
+    width: 16px;
+    height: 16px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-size: 16px;
+    color: black;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: gray;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.auth-buttons .register {
+    background-color: #28a745;
+}
+
+.cart-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.cart-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.cart-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.cart-button img {
+    
+    width: 30px;
+    height: 30px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.cart-button img:hover {
+    transform: scale(1.1);
+}
+
+.profile-button img {
+    width: 35px; /* Ajusta el tamaño del icono */
+    height: 35px;
+    border-radius: 50%; /* Hace que la imagen sea redonda */
+    border: 2px solid #ddd; /* Opcional: añade un borde */
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.profile-button img:hover {
+    transform: scale(1.1);
+}
+
+/* Main */
+main {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+/* Foto del Artista */
+.artist-photo img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Feed */
+.feed {
+    margin-top: 20px;
+}
+
+.feed h2 {
+    font-size: 24px;
+}
+
+.artist-name {
+    color: #0073e6;
+    font-weight: bold;
+}
+
+.post-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.post-box input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.post-box .post-btn {
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post {
+    background: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+
+
+/* Footer */
+footer {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.footer-links {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 0 20px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.footer-links h3 {
+    margin-bottom: 10px;
+}
+
+.footer-links .other,
+.footer-links .help {
+    text-align: left;
+}
+
+
+  .cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.item-details {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.item-name {
+    font-weight: bold;
+}
+
+.item-price {
+    color: #0073e6;
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Carrito</title>
+  <link rel="stylesheet" href="/css/carrito.css">
+</head>
+<body>
+  <div id="header"></div>
+  {% include 'header1_NoLog.html' %}
+
+  <main>
+    <h1>Mi Carrito</h1>
+    <p>Revisa los productos en tu carrito antes de proceder al pago:</p>
+
+    <!-- Contenedor donde inyectamos los items -->
+    <div id="cart-container" class="cart-container"></div>
+
+    <div class="cart-options">
+      <label><input type="checkbox"> Comprar como regalo (incluye envoltura)</label><br>
+      <label><input type="checkbox"> Suscribirse al boletín para recibir ofertas y promociones</label>
+    </div>
+
+    <div class="cart-buttons">
+      <button onclick="checkoutGuestCart()" class="pay-btn">Pagar</button>
+      <button onclick="window.location.href='/allproductsPrincipalNo_log'" class="return-btn">Volver a la tienda</button>
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  {% include 'footer.html' %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', loadCart);
+
+    // Carga y muestra el carrito
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+      const container = document.getElementById('cart-container');
+      if (!cart.length) {
+        container.innerHTML = '<p>Tu carrito está vacío.</p>';
+        return;
+      }
+      container.innerHTML = '';
+      cart.forEach((p, i) => {
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.setAttribute('data-index', i);
+        div.innerHTML = `
+          <div class="item-details">
+            <a href="/getDetalleDiscoNo_log/${p.id}">
+              <img src="/img/${p.imagen}" alt="${p.nombre}" class="item-image">
+            </a>
+            <p class="item-name">${p.nombre}</p>
+            <span class="item-price">${p.precio}€</span>
+          </div>
+          <div class="quantity">
+            <button class="quantity-btn" onclick="subtractItem(${i})">-</button>
+            <input type="text" value="${p.cantidad}" class="quantity-input" id="cantidad-${i}">
+            <button class="quantity-btn" onclick="addItem(${i})">+</button>
+          </div>
+          <button class="remove-btn" onclick="deleteItem(${i})">Eliminar</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // Guarda el carrito en localStorage
+    function saveCart(cart) {
+      localStorage.setItem('guestCart', JSON.stringify(cart));
+    }
+
+    // Sumar cantidad
+    function addItem(index) {
+      const cart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+      cart[index].cantidad++;
+      saveCart(cart);
+      document.getElementById(`cantidad-${index}`).value = cart[index].cantidad;
+    }
+
+    // Restar cantidad (>=1)
+    function subtractItem(index) {
+      const cart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+      if (cart[index].cantidad === 1) {
+        alert('La cantidad no puede ser menor a 1.');
+        return;
+      }
+      cart[index].cantidad--;
+      saveCart(cart);
+      document.getElementById(`cantidad-${index}`).value = cart[index].cantidad;
+    }
+
+    // Eliminar producto
+    function deleteItem(index) {
+      const cart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+      cart.splice(index, 1);
+      saveCart(cart);
+      loadCart();
+    }
+
+    // Iniciar checkout para invitado
+    function checkoutGuestCart() {
+      const cart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+      if (!cart.length) {
+        return alert('Tu carrito está vacío.');
+      }
+      // Calcula total en euros y céntimos
+      const totalEuros = cart.reduce((sum, p) => sum + (parseFloat(p.precio) * p.cantidad), 0);
+      const totalCents = Math.round(totalEuros * 100); 
+
+      if (totalCents < 50) {
+        return alert('El valor del carrito es demasiado bajo para procesar el pago (€0.50).');
+      }
+
+
+      sessionStorage.setItem('guestPaymentAmount', totalCents.toString());
+      // Limpia compra individual si existía
+      sessionStorage.removeItem('singleProductToBuy');
+      console.log("Total carrito invitado (céntimos) guardado:", totalCents);
+
+      // Redirige al endpoint /pago que servirá pago_NoLog.html
+      window.location.href = '/pago';
+    }
+  </script>
+</body>
+</html>

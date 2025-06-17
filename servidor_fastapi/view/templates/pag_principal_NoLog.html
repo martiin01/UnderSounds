@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal - UnderSound</title>
+    <!-- Rutas corregidas con / inicial -->
+    <link rel="stylesheet" href="/css/pag_principal.css">
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/js/splide.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/css/splide.min.css">
+    <!-- Eliminado: <script src="/js/pag_principal.js" defer></script> -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // Cambia estos valores por los de tu proyecto Firebase
+        const firebaseConfig = {
+          apiKey: "xxxxxxxxxx", // Considera mover esto a variables de entorno o un archivo de config separado
+          authDomain: "xxxxxxxxxx",
+          projectId: "xxxxxxxxxx",
+          storageBucket: "xxxxxxxxxx",
+          messagingSenderId: "xxxxxxxxxx",
+          appId: "xxxxxxxxxx"
+        };
+
+
+        // Initialize Firebase
+        try {
+            const app = initializeApp(firebaseConfig);
+            console.log("Firebase inicializado en pag_principal.");
+        } catch (error) {
+            console.error("Error inicializando Firebase:", error);
+        }
+    </script>
+</head>
+<body>
+
+    <!-- HEADER -->
+    {% include 'header1_NoLog.html' %} {# Asumiendo que este archivo existe en view/templates/ #}
+
+    <!-- Menú de navegación con rutas FastAPI -->
+    <nav class="nav-links">
+        <!-- Asegúrate que estas rutas coincidan con las definidas en tus routers -->
+        <a href="/allproductsExplorarNo_log">Explora</a>
+        <a href="/allproductsVinilosNo_log">Vinilos</a>
+        <a href="/allproductsCdsNo_log">CDs</a>
+        <a href="/allproductsCassettesNo_log">Cassettes</a> <!-- Asumiendo que existe esta ruta -->
+        <a href="/allproductsCamisetasNo_log">Camisetas</a>
+    </nav>
+
+    <!-- SECCIÓN DESTACADA - Primer producto -->
+    <section class="destacado">
+        <h2>Elemento Destacado</h2>
+        {% if productos %} {# Comprueba si hay productos #}
+            {% set destacado = productos[0] %} {# Toma el primer producto #}
+            <div class="destacado-img">
+                <a id="destacado-link" href="{% if destacado.tipo == 'camiseta' %}/getDetalleCamisetaNo_log/{{ destacado.id }}{% else %}/getDetalleDiscoNo_log/{{ destacado.id }}{% endif %}">>
+                    {# Construye la ruta completa a la imagen #}
+                    <img id="destacado-imagen" src="/img/{{ destacado.imagen | default('placeholder.png') }}" alt="{{ destacado.nombre }}">
+                </a>
+            </div>
+            <h3>
+                <a id="destacado-nombre" href="/getDetalleProductoNo_log/{{ destacado.id }}">{{ destacado.nombre }}</a>
+            </h3>
+        {% else %}
+            <p>No hay productos destacados disponibles.</p>
+        {% endif %}
+    </section>
+
+    <section class="productos-container">
+        <h2>Más Vendidos (Autor 1)</h2>
+        <div class="splide" id="carrusel-venta">
+            <div class="splide__track">
+                <ul class="splide__list" id="productos-venta">
+                    {% if productos %}
+                        {% for producto in productos %}
+                            {# Comprueba si el autor es 1 #} 
+                            {% if producto.autor == "1" %}
+                                <li class="splide__slide">
+                                    <div class="producto-item">
+                                        <a href="{% if producto.tipo == 'camiseta' %}/getDetalleCamisetaNo_log/{{ producto.id }}{% else %}/getDetalleDiscoNo_log/{{ producto.id }}{% endif %}">
+                                            {# Construye la ruta completa a la imagen #}
+                                            <img src="/img/{{ producto.imagen | default('placeholder.png') }}" alt="{{ producto.nombre }}">
+                                        </a>
+                                        <h3>
+                                            <a href="{% if producto.tipo == 'camiseta' %}/getDetalleCamisetaNo_log/{{ producto.id }}{% else %}/getDetalleDiscoNo_log/{{ producto.id }}{% endif %}">
+                                                {{ producto.nombre }}
+                                            </a>
+                                        </h3>
+                                        <p>Precio: {{ producto.precio }}$</p>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {# Mensaje si no se encontró ningún producto del autor 1 #}
+                    {% if not found_author1 %}
+                        <p>No hay productos más vendidos del autor 1.</p>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN "NUEVO Y DESTACADO" - Productos desde 2024 -->
+    <section class="productos-container">
+        <h2>Nuevo y Destacado (Desde 2024)</h2>
+        <div class="splide" id="carrusel-destacados">
+            <div class="splide__track">
+                <ul class="splide__list" id="productos-destacados">
+                    {% set found_author1 = false %} {# Bandera para saber si encontramos alguno #}
+                    {% if productos %}
+                        {% for producto in productos %}
+                            {# Comprueba si el autor es 1 #}
+                            {% if producto.autor == "1" %}
+                                {% set found_author1 = true %}
+                                <li class="splide__slide">
+                                    <div class="producto-item">
+                                        <a href="{% if producto.tipo == 'camiseta' %}/getDetalleCamisetaNo_log/{{ producto.id }}{% else %}/getDetalleDiscoNo_log/{{ producto.id }}{% endif %}">
+                                            {# Construye la ruta completa a la imagen #}
+                                            <img src="/img/{{ producto.imagen | default('placeholder.png') }}" alt="{{ producto.nombre }}">
+                                        </a>
+                                        <h3>
+                                            <a href="{% if producto.tipo == 'camiseta' %}/getDetalleCamisetaNo_log/{{ producto.id }}{% else %}/getDetalleDiscoNo_log/{{ producto.id }}{% endif %}">
+                                                {{ producto.nombre }}
+                                            </a>
+                                        </h3>
+                                        <p>Precio: {{ producto.precio }}$</p>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {# Mensaje si no se encontró ningún producto del autor 1 #}
+                    {% if not found_author1 %}
+                        <p>No hay productos más vendidos del autor 1.</p>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN "MÁS VENDIDOS" - Productos del autor 1 -->
+    
+
+    <!-- Footer -->
+    {% include 'footer.html' %} {# Asumiendo que este archivo existe en view/templates/ #}
+
+    <!-- Script para inicializar los carruseles Splide -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializa el carrusel de destacados si existe
+            var splideDestacados = document.getElementById('carrusel-destacados');
+            if (splideDestacados && splideDestacados.querySelector('.splide__slide')) { // Verifica si hay slides
+                new Splide(splideDestacados, {
+                    type       : 'loop',
+                    perPage    : 3,
+                    perMove    : 1,
+                    gap        : '1rem',
+                    pagination : false,
+                    breakpoints: { 768: { perPage: 2 }, 480: { perPage: 1 } }
+                }).mount();
+            }
+
+            // Inicializa el carrusel de más vendidos si existe
+            var splideVenta = document.getElementById('carrusel-venta');
+            if (splideVenta && splideVenta.querySelector('.splide__slide')) { // Verifica si hay slides
+                new Splide(splideVenta, {
+                    type       : 'loop',
+                    perPage    : 3,
+                    perMove    : 1,
+                    gap        : '1rem',
+                    pagination : false,
+                    breakpoints: { 768: { perPage: 2 }, 480: { perPage: 1 } }
+                }).mount();
+            }
+        });
+    </script>
+
+</body>
+</html>

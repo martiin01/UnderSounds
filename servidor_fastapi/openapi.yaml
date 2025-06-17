@@ -1,0 +1,864 @@
+openapi: 3.0.3
+info:
+  description: "API para gestionar usuarios (no logeados, logueados, artista), productos\
+    \ y compras."
+  title: Music E-Commerce API
+  version: 1.0.0
+servers:
+- description: Servidor local de FastAPI
+  url: http://localhost:8000
+security:
+- BearerAuth: []
+tags:
+- description: "Registro, login y logout"
+  name: Auth
+- description: "Operaciones de productos (discos, camisetas, etc.)"
+  name: Products
+- description: Operaciones sobre el carrito de compra
+  name: Cart
+- description: Flujo de pago/compra
+  name: Checkout
+- description: Perfil de usuario o artista
+  name: Profile
+- description: "Comentarios, opiniones, etc."
+  name: Forum
+paths:
+  /auth/register:
+    post:
+      description: Crea un nuevo usuario en la base de datos (Firebase + la BD local).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterInput'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: Usuario registrado correctamente.
+        "400":
+          description: Error de validación o usuario ya existente.
+      summary: Registrar un nuevo usuario (sea normal o artista)
+      tags:
+      - Auth
+  /auth/login:
+    post:
+      description: Devuelve un token JWT si las credenciales son correctas.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginInput'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_auth_login_post_200_response'
+          description: Inicio de sesión exitoso
+        "401":
+          description: Credenciales inválidas
+      summary: Iniciar sesión
+      tags:
+      - Auth
+  /auth/logout:
+    post:
+      description: Invalida el token o la sesión del usuario en Firebase (según tu
+        implementación).
+      responses:
+        "200":
+          description: Sesión cerrada exitosamente.
+        "401":
+          description: No se encontró una sesión activa.
+      summary: Cerrar sesión
+      tags:
+      - Auth
+  /products:
+    get:
+      description: "Permite filtrar por nombre o tipo (vinilo, cd, etc.)."
+      parameters:
+      - description: Nombre parcial del producto a buscar
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Tipo de producto
+        explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          enum:
+          - vinilos
+          - cds
+          - cassettes
+          - camisetas
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Product'
+                type: array
+          description: Lista de productos
+      summary: Listar productos
+      tags:
+      - Products
+    post:
+      description: "Crea un producto nuevo (disco, camiseta, etc.). Se requiere autenticació\
+        n con rol \"artista\"."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: Producto creado exitosamente
+        "401":
+          description: Usuario no autenticado
+        "403":
+          description: Usuario no autorizado (no es artista)
+      security:
+      - BearerAuth: []
+      summary: Subir un nuevo producto (solo artista)
+      tags:
+      - Products
+  /products/{productId}:
+    delete:
+      parameters:
+      - explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Producto eliminado exitosamente
+        "401":
+          description: No autenticado
+        "403":
+          description: No autorizado
+      security:
+      - BearerAuth: []
+      summary: Eliminar producto (solo artista)
+      tags:
+      - Products
+    get:
+      description: "Retorna todos los datos del producto (disco, camiseta, etc.)."
+      parameters:
+      - description: ID del producto
+        explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: Detalle del producto
+        "404":
+          description: Producto no encontrado
+      summary: Obtener detalle de un producto
+      tags:
+      - Products
+    put:
+      parameters:
+      - explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: Producto actualizado
+        "401":
+          description: No autenticado
+        "403":
+          description: No autorizado para actualizar
+      security:
+      - BearerAuth: []
+      summary: Actualizar un producto (solo artista)
+      tags:
+      - Products
+  /products/{productId}/comments:
+    post:
+      description: "Permite a un usuario (logueado o no) comentar. *Si requieres login\
+        \ forzado, quita la opción para usuarios no logeados.*"
+      parameters:
+      - explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentInput'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: Comentario creado
+        "401":
+          description: No autenticado (si lo exiges)
+        "404":
+          description: Producto no encontrado
+      summary: Agregar un comentario al producto
+      tags:
+      - Products
+  /products/{productId}/comments/{commentId}:
+    put:
+      description: "Actualiza un comentario existente."
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+        description: ID del producto asociado al comentario.
+      - in: path
+        name: commentId
+        required: true
+        schema:
+          type: string
+        description: ID del comentario a actualizar.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentInput'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: Comentario actualizado correctamente.
+        "404":
+          description: Comentario o producto no encontrado.
+      summary: Actualizar un comentario
+      tags:
+      - Products
+
+    delete:
+      description: "Elimina un comentario existente."
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+        description: ID del producto asociado al comentario.
+      - in: path
+        name: commentId
+        required: true
+        schema:
+          type: string
+        description: ID del comentario a eliminar.
+      responses:
+        "204":
+          description: Comentario eliminado correctamente.
+        "404":
+          description: Comentario o producto no encontrado.
+      summary: Eliminar un comentario
+      tags:
+      - Products
+  /cart:
+    delete:
+      description: Elimina todos los productos del carrito.
+      responses:
+        "204":
+          description: Carrito vaciado
+        "401":
+          description: No autenticado
+      security:
+      - BearerAuth: []
+      summary: Vaciar el carrito
+      tags:
+      - Cart
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CartItem'
+                type: array
+          description: Lista de productos en el carrito
+        "401":
+          description: No autenticado (si exiges login para ver el carrito)
+      security:
+      - BearerAuth: []
+      summary: Obtener el contenido del carrito actual
+      tags:
+      - Cart
+    post:
+      description: Agrega un producto y su cantidad al carrito.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddToCartInput'
+        required: true
+      responses:
+        "201":
+          description: Producto añadido al carrito
+        "401":
+          description: No autenticado
+      security:
+      - BearerAuth: []
+      summary: Añadir un producto al carrito
+      tags:
+      - Cart
+  /cart/{itemId}:
+    delete:
+      parameters:
+      - explode: false
+        in: path
+        name: itemId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Producto eliminado del carrito
+        "401":
+          description: No autenticado
+        "404":
+          description: Producto no encontrado
+      security:
+      - BearerAuth: []
+      summary: Eliminar un producto del carrito
+      tags:
+      - Cart
+    patch:
+      description: Permite cambiar la cantidad de un producto que ya está en el carrito.
+      parameters:
+      - explode: false
+        in: path
+        name: itemId
+        required: true
+        schema:
+          description: ID del producto en el carrito (o la relación)
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_cart__itemId__patch_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartItem'
+          description: Cantidad actualizada
+        "401":
+          description: No autenticado
+        "404":
+          description: Item no encontrado en el carrito
+      security:
+      - BearerAuth: []
+      summary: Actualizar la cantidad de un producto en el carrito
+      tags:
+      - Cart
+  /checkout:
+    post:
+      description: Completa la compra de los productos que hay en el carrito y los
+        añade a "mis_Compras".
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutInput'
+        required: true
+      responses:
+        "200":
+          description: Compra realizada con éxito
+        "401":
+          description: No autenticado
+        "402":
+          description: Error de pago (si integras con pasarela)
+      security:
+      - BearerAuth: []
+      summary: Realizar la compra (pantalla de pago)
+      tags:
+      - Checkout
+  /profile:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: Datos del perfil
+        "401":
+          description: No autenticado
+      security:
+      - BearerAuth: []
+      summary: Obtener los datos del perfil
+      tags:
+      - Profile
+    put:
+      description: "Permite cambiar nombre, email, etc."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileUpdate'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: Perfil actualizado
+        "401":
+          description: No autenticado
+      security:
+      - BearerAuth: []
+      summary: Actualizar el perfil
+      tags:
+      - Profile
+  /profile/purchases:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Purchase'
+                type: array
+          description: Lista de compras realizadas por el usuario
+        "401":
+          description: No autenticado
+      security:
+      - BearerAuth: []
+      summary: Ver mis compras
+      tags:
+      - Profile
+  /forum/artista/{artistId}/opiniones:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: artistId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Comment'
+                type: array
+          description: Lista de comentarios del artista
+        "404":
+          description: Artista no encontrado
+      summary: Obtener lista de opiniones sobre un artista
+      tags:
+      - Forum
+  /forum/artista/{artistId}/albums:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: artistId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Product'
+                type: array
+          description: Lista de álbumes
+        "404":
+          description: Artista no encontrado
+      summary: Obtener la lista de álbumes de un artista
+      tags:
+      - Forum
+components:
+  schemas:
+    UserRegisterInput:
+      example:
+        password: password
+        role: role
+        displayName: displayName
+        email: email
+      properties:
+        email:
+          format: email
+          title: email
+          type: string
+        password:
+          title: password
+          type: string
+        displayName:
+          title: displayName
+          type: string
+        role:
+          description: "Ejemplo: 'user' o 'artista'"
+          title: role
+          type: string
+      required:
+      - email
+      - password
+      title: UserRegisterInput
+      type: object
+    UserLoginInput:
+      example:
+        password: password
+        email: email
+      properties:
+        email:
+          format: email
+          title: email
+          type: string
+        password:
+          title: password
+          type: string
+      required:
+      - email
+      - password
+      title: UserLoginInput
+      type: object
+    UserProfile:
+      example:
+        role: role
+        displayName: displayName
+        imageUrl: https://openapi-generator.tech
+        id: id
+        email: email
+      properties:
+        id:
+          description: Identificador único del usuario
+          title: id
+          type: string
+        email:
+          format: email
+          title: email
+          type: string
+        displayName:
+          title: displayName
+          type: string
+        role:
+          description: user | artista
+          title: role
+          type: string
+        imageUrl:
+          description: Link a la imagen del perfil del usuario/artista
+          format: uri
+          title: imageUrl
+          type: string
+      title: UserProfile
+      type: object
+    UserProfileUpdate:
+      example:
+        displayName: displayName
+        imageUrl: https://openapi-generator.tech
+      properties:
+        displayName:
+          title: displayName
+          type: string
+        imageUrl:
+          format: uri
+          title: imageUrl
+          type: string
+      title: UserProfileUpdate
+      type: object
+    Product:
+      example:
+        price: 0.8008282
+        imageUrl: imageUrl
+        name: name
+        description: description
+        artistId: artistId
+        id: id
+        category: vinilos
+      properties:
+        id:
+          title: id
+          type: string
+        name:
+          title: name
+          type: string
+        category:
+          enum:
+          - vinilos
+          - cds
+          - cassettes
+          - camisetas
+          title: category
+          type: string
+        price:
+          format: float
+          title: price
+          type: number
+        description:
+          title: description
+          type: string
+        imageUrl:
+          title: imageUrl
+          type: string
+        artistId:
+          description: ID del artista que subió el producto
+          title: artistId
+          type: string
+      title: Product
+      type: object
+    ProductInput:
+      example:
+        price: 0.8008282
+        imageUrl: imageUrl
+        name: name
+        description: description
+        category: vinilos
+      properties:
+        name:
+          title: name
+          type: string
+        category:
+          enum:
+          - vinilos
+          - cds
+          - cassettes
+          - camisetas
+          title: category
+          type: string
+        price:
+          format: float
+          title: price
+          type: number
+        description:
+          title: description
+          type: string
+        imageUrl:
+          title: imageUrl
+          type: string
+      required:
+      - category
+      - name
+      - price
+      title: ProductInput
+      type: object
+    CommentInput:
+      example:
+        text: text
+      properties:
+        text:
+          title: text
+          type: string
+      required:
+      - text
+      title: CommentInput
+      type: object
+    Comment:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        productId: productId
+        id: id
+        text: text
+        userId: userId
+      properties:
+        id:
+          title: id
+          type: string
+        productId:
+          title: productId
+          type: string
+        userId:
+          title: userId
+          type: string
+        text:
+          title: text
+          type: string
+        createdAt:
+          format: date-time
+          title: createdAt
+          type: string
+      title: Comment
+      type: object
+    AddToCartInput:
+      example:
+        quantity: 1
+        productId: productId
+      properties:
+        productId:
+          title: productId
+          type: string
+        quantity:
+          default: 1
+          minimum: 1
+          title: quantity
+          type: integer
+      required:
+      - productId
+      title: AddToCartInput
+      type: object
+    CartItem:
+      example:
+        itemId: itemId
+        quantity: 0
+        productId: productId
+        price: 6.027456183070403
+        name: name
+      properties:
+        itemId:
+          title: itemId
+          type: string
+        productId:
+          title: productId
+          type: string
+        name:
+          title: name
+          type: string
+        quantity:
+          title: quantity
+          type: integer
+        price:
+          title: price
+          type: number
+      required:
+      - itemId
+      - price
+      - productId
+      - quantity
+      title: CartItem
+      type: object
+    CheckoutInput:
+      example:
+        address: address
+        paymentMethod: paymentMethod
+      properties:
+        paymentMethod:
+          description: tarjeta/paypal
+          title: paymentMethod
+          type: string
+        address:
+          description: Dirección de envío
+          title: address
+          type: string
+      required:
+      - address
+      - paymentMethod
+      title: CheckoutInput
+      type: object
+    Purchase:
+      example:
+        date: 2000-01-23T04:56:07.000+00:00
+        totalAmount: 0.8008281904610115
+        purchaseId: purchaseId
+        items:
+        - itemId: itemId
+          quantity: 0
+          productId: productId
+          price: 6.027456183070403
+          name: name
+        - itemId: itemId
+          quantity: 0
+          productId: productId
+          price: 6.027456183070403
+          name: name
+      properties:
+        purchaseId:
+          title: purchaseId
+          type: string
+        date:
+          format: date-time
+          title: date
+          type: string
+        items:
+          items:
+            $ref: '#/components/schemas/CartItem'
+          title: items
+          type: array
+        totalAmount:
+          title: totalAmount
+          type: number
+      required:
+      - date
+      - items
+      - purchaseId
+      - totalAmount
+      title: Purchase
+      type: object
+    _auth_login_post_200_response:
+      example:
+        token: token
+      properties:
+        token:
+          description: Token JWT para autenticar futuras peticiones
+          title: token
+          type: string
+      title: _auth_login_post_200_response
+      type: object
+    _cart__itemId__patch_request:
+      properties:
+        quantity:
+          minimum: 1
+          title: quantity
+          type: integer
+      title: _cart__itemId__patch_request
+      type: object
+  securitySchemes:
+    BearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de fan - UnderSound</title>
+    <link rel="stylesheet" href="/css/styleLogin-Registro.css" />
+    <script type="module">
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const username = document.getElementById("username").value;
+
+          // Datos a enviar al backend
+          const userData = {
+            email: email,
+            password: password, // El backend necesita la contraseña para crear el usuario en Firebase
+            username: username,
+            tipo_usuario: "usuario", // Fijo para este formulario
+            nombre_banda: null
+          };
+
+          console.log("Enviando datos de registro al backend:", userData); // Log para depuración
+
+          try {
+            // Llamar al endpoint de registro del backend
+            const response = await fetch('/auth/register', { // URL del endpoint FastAPI
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(userData) // Enviar datos como JSON
+            });
+
+            if (response.ok) {
+              const registeredUser = await response.json(); // Obtener datos del usuario registrado desde el backend
+              console.log("Usuario registrado exitosamente por el backend:", registeredUser);
+              alert("¡Registro exitoso! Serás redirigido a la página de inicio de sesión.");
+              // Redirigir al usuario a login para que obtenga un token JWT
+              window.location.href = "/Usuario/logInUsuario/login.html";
+            } else {
+              // Manejar errores del backend
+              let errorDetail = "Error desconocido";
+              try {
+                  const errorData = await response.json();
+                  errorDetail = errorData.detail || JSON.stringify(errorData);
+              } catch (jsonError) {
+                  errorDetail = response.statusText; // Si la respuesta no es JSON
+              }
+              console.error(`Error del backend al registrar (${response.status}):`, errorDetail);
+              alert("Error al registrar: " + errorDetail);
+            }
+          } catch (error) {
+            // Manejar errores de red o fetch
+            console.error("Error de red o fetch al registrar:", error);
+            alert("Error de conexión al intentar registrar. Revisa la consola para más detalles.");
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+          <div class="logo">
+            <a href="/"><img src="/img/logo_UnderSound.png" alt="Logo"></a>
+          </div>
+      </div>
+  </header>
+
+    <!-- Contenido principal -->
+    <main class="form-container">
+      <h1>Regístrate en UnderSound</h1>
+      <form>
+        <label for="email">Dirección de correo electrónico</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="tunombre@ejemplo.com"
+          required
+        />
+
+        <label for="username">Nombre de Usuario</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Tu nombre de usuario"
+          required
+        />
+
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="********"
+          required
+        />
+
+        <label for="terminos" class="checkbox">
+          <input type="checkbox" id="terminos" required />
+          Leí y acepto los Términos de uso
+        </label>
+
+        <button type="submit" class="btn">Registrarse</button>
+      </form>
+      <p class="extra-link">
+        ¿Ya tienes una cuenta? <a href='/Usuario/logInUsuario/login.html'>Iniciar Sesión</a>
+      </p>
+      <p class="extra-link">
+        ¿Quieres registrarte como artista? <a href="/Artista/regArtista/registro_artista.html">Haz click aquí</a>
+      </p>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    {% include 'footer.html' %}
+  </body>
+</html>

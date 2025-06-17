@@ -1,0 +1,60 @@
+{
+    "usuarios": [
+        {
+            "id": "1",
+            "username": "jperez",
+            "email": "juan@example.com",
+            "tipo_usuario": "usuario",
+            "nombre_banda": null
+        },
+        {
+            "id": "CsKWGP8B6eeg8U1r6oS3EBqxoK83",
+            "username": "abc",
+            "email": "abc@example.com",
+            "tipo_usuario": "usuario",
+            "nombre_banda": null
+        },
+        {
+            "id": "ZJoIrwAXUAfgYrLLvPyb4L5WZZX2",
+            "username": "dani1",
+            "email": "dani@example.com",
+            "tipo_usuario": "artista",
+            "nombre_banda": "Los Rockeros"
+        },
+        {
+            "id": "vd4aY8X4JCZoglbbw5RMGFjRn072",
+            "username": "eee",
+            "email": "eee@eee.com",
+            "tipo_usuario": "usuario",
+            "nombre_banda": null
+        }
+    ],
+    "productos": [
+        { "id": 1, "nombre": "Producto 1", "imagen": "1.jpg", "precio": 10, "fecha": "2024-01-05", "tipo": "Vinilos", "estilo": "Rock", "autor": 1 },
+        { "id": 2, "nombre": "Producto 2", "imagen": "2.jpg", "precio": 15, "fecha": "2023-12-10", "tipo": "D.Compactos", "estilo": "Pop", "autor": 2 },
+        { "id": 3, "nombre": "Producto 3", "imagen": "3.jpg", "precio": 20, "fecha": "2023-11-20", "tipo": "D.Compactos", "estilo": "Jazz", "autor": 1 },
+        { "id": 4, "nombre": "Producto 4", "imagen": "4.jpg", "precio": 25, "fecha": "2024-02-15", "tipo": "Cassettes", "estilo": "Reggaeton", "autor": 2 },
+        { "id": 5, "nombre": "Producto 5", "imagen": "5.jpg", "precio": 30, "fecha": "2023-09-30", "tipo": "Vinilos", "estilo": "Punk", "autor": 1 },
+        { "id": 6, "nombre": "Producto 6", "imagen": "6.jpg", "precio": 35, "fecha": "2024-03-12", "tipo": "D.Compactos", "estilo": "Country", "autor": 2 },
+        { "id": 7, "nombre": "Producto 7", "imagen": "7.jpg", "precio": 40, "fecha": "2023-07-18", "tipo": "D.Compactos", "estilo": "Rock", "autor": 1 },
+        { "id": 8, "nombre": "Producto 8", "imagen": "8.jpg", "precio": 45, "fecha": "2024-04-01", "tipo": "Cassettes", "estilo": "Jazz", "autor": 2 },
+        { "id": 9, "nombre": "Producto 9", "imagen": "9.jpg", "precio": 15, "fecha": "2022-05-03", "tipo": "Camisetas", "estilo": "Rock", "autor": 1 },
+        { "id": 10, "nombre": "Producto 10", "imagen": "10.jpg", "precio": 25, "fecha": "2024-02-02", "tipo": "Camisetas", "estilo": "Punk", "autor": 2 },
+        { "id": 11, "nombre": "Producto 11", "imagen": "11.jpg", "precio": 30, "fecha": "2020-07-01", "tipo": "Camisetas", "estilo": "Jazz", "autor": 1 },
+        { "id": 12, "nombre": "Producto 12", "imagen": "12.jpg", "precio": 17, "fecha": "2025-04-01", "tipo": "Camisetas", "estilo": "Pop", "autor": 2 },
+        { "id": 13, "nombre": "Producto 13", "imagen": "13.jpg", "precio": 33, "fecha": "2021-11-10", "tipo": "Camisetas", "estilo": "Rock", "autor": 1 },
+        { "id": 14, "nombre": "Producto 14", "imagen": "14.jpg", "precio": 20, "fecha": "2024-04-01", "tipo": "Camisetas", "estilo": "Reggaeton", "autor": 2 },
+        { "id": 15, "nombre": "Producto 15", "imagen": "15.jpg", "precio": 17, "fecha": "2021-06-06", "tipo": "Cassettes", "estilo": "Pop", "autor": 1 },
+        { "id": 16, "nombre": "Producto 16", "imagen": "16.jpg", "precio": 22, "fecha": "2022-03-10", "tipo": "Cassettes", "estilo": "Pop", "autor": 2 },
+        { "id": 17, "nombre": "Producto 17", "imagen": "17.jpg", "precio": 20, "fecha": "2024-04-01", "tipo": "Cassettes", "estilo": "Reggaeton", "autor": 1 },
+        { "id": 18, "nombre": "Producto 18", "imagen": "18.jpg", "precio": 25, "fecha": "2024-03-30", "tipo": "Cassettes", "estilo": "Jazz", "autor": 2 },
+        { "id": 19, "nombre": "Producto 19", "imagen": "19.jpg", "precio": 17, "fecha": "2024-08-25", "tipo": "Cassettes", "estilo": "Pop", "autor": 1 },
+        { "id": 20, "nombre": "Producto 20", "imagen": "20.jpg", "precio": 22, "fecha": "2024-12-25", "tipo": "D.Compactos", "estilo": "Pop", "autor": 2 },
+        { "id": 21, "nombre": "Producto 21", "imagen": "21.jpg", "precio": 20, "fecha": "2021-05-07", "tipo": "D.Compactos", "estilo": "Reggaeton", "autor": 1 },
+        { "id": 22, "nombre": "Producto 22", "imagen": "22.jpg", "precio": 25, "fecha": "2018-10-11", "tipo": "D.Compactos", "estilo": "Jazz", "autor": 2 },
+        { "id": 23, "nombre": "Producto 23", "imagen": "23.jpg", "precio": 22, "fecha": "2020-12-11", "tipo": "D.Compactos", "estilo": "Pop", "autor": 1 },
+        { "id": 24, "nombre": "Producto 24", "imagen": "24.jpg", "precio": 20, "fecha": "2025-08-09", "tipo": "D.Compactos", "estilo": "Reggaeton", "autor": 2 },
+        { "id": 25, "nombre": "Producto 25", "imagen": "25.jpg", "precio": 25, "fecha": "2018-01-10", "tipo": "D.Compactos", "estilo": "Jazz", "autor": 1 }
+    ],
+    "carrito": []
+}

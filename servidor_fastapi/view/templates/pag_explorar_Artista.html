@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Productos</title>
+    <link rel="stylesheet" href="/css/pag_explorar.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    {% include 'header1_Artista.html' %}
+
+    <!-- Navegación de categorías -->
+    <nav class="categories">
+        <button class="filter-btn" data-filter="Jazz">JAZZ</button>
+        <button class="filter-btn" data-filter="Country">COUNTRY</button>
+        <button class="filter-btn" data-filter="Rock">ROCK</button>
+        <button class="filter-btn" data-filter="Pop">POP</button>
+        <button class="filter-btn" data-filter="Reggaeton">REGGAETON</button>
+        <button class="filter-btn" data-filter="Punk">PUNK</button>
+        <button class="filter-btn" data-filter="Cassettes">CASETTES</button>
+        <button class="filter-btn" data-filter="Vinilos">VINILOS</button>
+        <button class="filter-btn" data-filter="cds">D.COMPACTOS</button>
+        <button class="filter-btn" data-filter="Camisetas">CAMISETAS</button>
+    </nav>
+
+    <!-- Filtro de ordenación -->
+    <div class="filter">
+        <label for="ordenar">Ordenar por:</label>
+        <select id="ordenar">
+            <option value="precio-asc">Precio ascendente</option>
+            <option value="precio-desc">Precio descendente</option>
+            <option value="nombre-asc">Nombre ascendente (A-Z)</option>
+            <option value="nombre-desc">Nombre descendente (Z-A)</option>
+            <option value="fecha-asc">Fecha ascendente</option>
+            <option value="fecha-desc">Fecha descendente</option>
+        </select>
+    </div>
+
+    <!-- Sección de productos -->
+    <section class="productos">
+        <h2>Explorar Productos</h2>
+        <div id="contenedor-productos" class="productos-grid">
+            {% if productos %}
+                {% for producto in productos %}
+                <div class="producto"
+                     data-categoria="{{ producto.tipo }}"
+                     data-estilo="{{ producto.estilo }}"
+                     data-precio="{{ producto.precio }}"
+                     data-nombre="{{ producto.nombre }}"
+                     data-fecha="{{ producto.fecha }}">
+                    <a href="{% if producto.tipo == 'camiseta' %}
+                                 /getDetalleCamisetaArtista/{{ producto.id }}
+                               {% else %}
+                                 /getDetalleDiscoArtista/{{ producto.id }}
+                               {% endif %}">
+                        <img src="/img/{{ producto.imagen | default('placeholder.png') }}"
+                             alt="{{ producto.nombre }}">
+                    </a>
+                    <h3>
+                        <a href="{% if producto.tipo == 'camiseta' %}
+                                     /getDetalleCamisetaArtista/{{ producto.id }}
+                                   {% else %}
+                                     /getDetalleDiscoArtista/{{ producto.id }}
+                                   {% endif %}">
+                            {{ producto.nombre }}
+                        </a>
+                    </h3>
+                    <p>Precio: {{ producto.precio }}€</p>
+                    <p>Tipo: {{ producto.tipo }}</p>
+                    <button class="btn-add-cart"
+                            onclick="addToCart('{{ producto.id }}')">
+                        Añadir al carrito
+                    </button>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No hay productos para mostrar.</p>
+            {% endif %}
+        </div>
+
+        <!-- Paginación -->
+        <div id="paginacion" class="paginacion"></div>
+    </section>
+
+    <!-- FOOTER -->
+    {% include 'footer.html' %}
+
+    <!-- Función para añadir al carrito -->
+    <script>
+        function addToCart(productId) {
+            console.log("Añadir al carrito:", productId);
+            alert(`Producto ${productId} añadido al carrito (simulación).`);
+        }
+    </script>
+
+    <!-- Script -->
+    <script src="/js/pag_explorarArtista.js" defer></script>
+</body>
+</html>

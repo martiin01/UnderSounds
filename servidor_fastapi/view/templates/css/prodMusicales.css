@@ -1,0 +1,339 @@
+/* Reset y estilos generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Header */
+header {
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px 30px;
+}
+
+.header-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  max-height: 50px;
+  height: auto;
+}
+
+/* Buscador */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  justify-content: center;
+}
+
+.search-container input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+}
+
+.search-container .search-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.search-container .search-button img {
+  width: 16px;
+  height: 16px;
+}
+
+/* Navegación */
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 16px;
+  color: black;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: gray;
+}
+
+/* Carrito de Compras */
+.cart-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.cart-button img {
+  width: 25px;
+  height: 25px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.cart-button img:hover {
+  transform: scale(1.1);
+}
+
+/* Perfil de Usuario */
+.profile-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-left: 15px;
+  background: none;
+  cursor: pointer;
+}
+
+.profile-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Contenedor principal */
+.main-container {
+  max-width: 1200px; /* Ajusta el ancho máximo según lo necesites */
+  margin: 0 auto;    /* Centra el contenedor horizontalmente */
+  padding: 0 1rem;   /* Espacio interno horizontal */
+}
+.section-header {
+  position: relative;     /* Para colocar el botón con position:absolute */
+  text-align: center;     /* Centra el texto del h1 */
+  margin: 20px 0;
+  padding: 10px 0;
+}
+
+/* Título */
+.section-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+/* Botón "Nuevo" */
+.btn-nuevo {
+  position: absolute;
+  right: 20px;            /* Se ubica a la derecha dentro del contenedor */
+  top: 100%;               /* Centrado vertical */
+  transform: translateY(-50%);
+  padding: 15px 40px;
+  background-color: #007BFF; /* Azul */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-nuevo:hover {
+  background-color: #0056b3; /* Oscurece un poco al pasar el ratón */
+}
+
+/* Título */
+.container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Botones de filtro */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filter-btn:hover {
+  background-color: #0056b3;
+}
+
+.filter-btn.active {
+  background-color: #0056b3;
+}
+
+/* Lista de productos */
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Producto individual */
+.product-item {
+  display: flex;
+  align-items: center;
+  background-color: #fafafa;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Sección de imagen */
+.product-image {
+  flex: 0 0 100px;
+}
+
+.product-image img {
+  width: 100px;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Sección de información */
+.product-info {
+  flex: 1;
+  margin: 0 15px;
+}
+
+.product-info h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.product-info p {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+/* Sección de botones de acción */
+.product-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.action-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.info-btn {
+  background-color: #0b4bd4;
+  color: #fff;
+}
+
+.info-btn:hover {
+  background-color: #050e61;
+}
+
+.edit-btn {
+  background-color: #e1e4eb;
+  color: #333;
+}
+
+.edit-btn:hover {
+  background-color: #e2d4a9;
+}
+  /* Footer */
+  footer {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+
+footer .subscribe {
+    flex: 1 1 50%;
+    text-align: left;
+}
+
+
+footer .subscribe input {
+    padding: 8px;
+    width: 60%;
+    margin-right: 10px;
+}
+
+
+footer .subscribe button {
+    padding: 8px;
+    background: gray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+footer .footer-links {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+footer .footer-links .help,
+footer .footer-links .other {
+    margin: 0 20px;
+}
+
+
+footer .footer-links h4 {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+
+footer .footer-links a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+footer .footer-links a:hover {
+    text-decoration: underline;
+}

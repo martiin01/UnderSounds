@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Productos</title>
+    <link rel="stylesheet" href="/css/pag_cassettes.css">
+</head>
+<body>
+
+    {% include 'header1_Artista.html' %}
+
+    <div class="filter">
+        <label for="ordenar-artista">Ordenar por:</label>
+        <select id="ordenar-artista">
+            <option value="precio-asc">Precio ascendente</option>
+            <option value="precio-desc">Precio descendente</option>
+            <option value="nombre-asc">Nombre ascendente (A-Z)</option>
+            <option value="nombre-desc">Nombre descendente (Z-A)</option>
+            <option value="fecha-asc">Fecha ascendente</option>
+            <option value="fecha-desc">Fecha descendente</option>
+        </select>
+    </div>
+
+    <section class="productos">
+        <h2>CASSETTES</h2>
+        <div id="contenedor-productos-artista" class="productos-grid">
+            {% if productos %}
+                {% for producto in productos %}
+                <div class="producto"
+                     data-categoria="{{ producto.tipo }}"
+                     data-estilo="{{ producto.estilo }}"
+                     data-precio="{{ producto.precio }}"
+                     data-nombre="{{ producto.nombre }}"
+                     data-fecha="{{ producto.fecha }}">
+                    <a href="/getDetalleDiscoArtista/{{ producto.id }}">
+                        <img src="/img/{{ producto.imagen | default('placeholder.png') }}"
+                             alt="{{ producto.nombre }}">
+                    </a>
+                    <h3>
+                        <a href="/getDetalleDiscoArtista/{{ producto.id }}">
+                            {{ producto.nombre }}
+                        </a>
+                    </h3>
+                    <p>Precio: {{ producto.precio }}€</p>
+                    <button class="btn-add-cart"
+                            onclick="addToCart('{{ producto.id }}')">
+                        Añadir al carrito
+                    </button>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No hay productos para mostrar.</p>
+            {% endif %}
+        </div>
+
+        <div id="paginacion-artista" class="paginacion"></div>
+    </section>
+
+    {% include 'footer.html' %}
+
+    <script>
+        function addToCart(productId) {
+            console.log("Añadir al carrito:", productId);
+            alert(`Producto ${productId} añadido al carrito (simulación).`);
+        }
+    </script>
+
+    <script src="/js/pag_cassettesArtista.js"></script>
+</body>
+</html>
